@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery.min.js" type="application/javascript"></script>
+    <script src="template.js" type="application/javascript"></script>
+    <title>WSock-Lab</title>
+</head>
+<body>
+    <form data-name="name">
+
+    </form>
+    <form id="target">
+        <input type="text" value="Hello there">
+        <input type="submit" value="Go">
+    </form>
+    <textarea placeholder="Your file preview..." id="preview"></textarea>
+    <br>
+    <input type="file" id="file">
+    <script type="application/javascript">
+        var input,output,b;
+        $(document).ready(function(){
+            $( "#target" ).submit(function( event ) {
+                alert( "Handler for .submit() called." );
+                event.preventDefault();
+            });
+            input = $('#file');
+            output = $('#preview');
+            input.change(function(){
+                var file    = document.querySelector('input[type=file]').files[0];
+                output.text($('input[type=file]').val());
+            });
+        });
+    </script>
+</body>
+</html>

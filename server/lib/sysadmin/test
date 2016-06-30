@@ -1,0 +1,3 @@
+echo 'Ali|reza' '' 45 | strlen 'Ali|reza' '' 45
+
+login 'admin' 50 'admin'

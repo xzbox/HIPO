@@ -1,0 +1,16 @@
+CACHE MANIFEST
+
+CACHE:
+jquery.min.js
+vue.min.js
+iDb.js
+app.html
+app.js
+
+NETWORK:
+http://*
+https://*
+*
+
+FALLBACK:
+/ / app.html
