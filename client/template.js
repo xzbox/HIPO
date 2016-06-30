@@ -62,7 +62,7 @@ forms.onSubmit  = function(form){
             forms.dLength++;
             forms.readFile(this);
         }else {
-            forms.data[el.attr('name')] = base64(el.val());
+            forms.data[el.attr('name')] = btoa(el.val());
         }
     });
     if(forms.dLength == 0){
