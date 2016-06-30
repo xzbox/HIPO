@@ -86,6 +86,8 @@ class user{
 			DB::SET('#'.$p.'pass',sha1($pass));
 			DB::SET($p.'age',$age);
 			DB::SET('#'.$p.'email',$email);
+			//Hash of email address for gravatar
+			DB::SET($p.'email',md5(strtolower(trim($email))));
 			DB::SET($p.'fname',$fname);
 			DB::SET($p.'lname',$lname);
 			DB::SET($p.'time',time());
