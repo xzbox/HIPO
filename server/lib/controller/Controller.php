@@ -56,7 +56,7 @@ class Controller{
      */
     public function __construct(){
         spl_autoload_register([$this,"auto_load"]);
-        DB::$DB = new Credis_Client(redis_host,redis_port);
+        DB::$DB = new Credis_Client(redis_host,redis_port,null,'',0,redis_password);
     }
 
     public function run(){
