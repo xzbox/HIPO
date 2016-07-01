@@ -21,6 +21,7 @@
 namespace lib\network;
 use lib\client\js;
 use lib\database\DB;
+use lib\helper\console;
 use lib\hipo\admin;
 use lib\hipo\user;
 use lib\sessions\DBStorage;
@@ -33,6 +34,7 @@ use lib\view\templates;
  * @package lib\network
  */
 class Socket extends WebSocketServer{
+    public static $transferred = 0;
     /**
      * @param $user
      *
@@ -50,6 +52,7 @@ class Socket extends WebSocketServer{
      * @return void
      */
     protected function connected($user){
+        console::set('Online clients',console::get('Connected clients')+1);
         parse_str(trim($user->headers['get'],'/'),$get);
         if(isset($get['IAMADMIN'])){
             $user->isAdmin  = 1;
@@ -86,6 +89,8 @@ class Socket extends WebSocketServer{
      * @param $input
      */
     protected function onMessage($user,$input){
+        self::$transferred += strlen($input);
+        console::set('Total transferred data',self::$transferred);
         /**
          * $- means its a json command
          * #subject:arg means a news (for example:#open:pages/test)
@@ -137,7 +142,7 @@ class Socket extends WebSocketServer{
      * @return void
      */
     protected function closed($user){
-
+        console::set('Online clients',console::get('Connected clients')-1);
     }
 
     /**
@@ -163,6 +168,8 @@ class Socket extends WebSocketServer{
      */
     public function send($user, $message){
         //TODO:RSA
+        self::$transferred += strlen($message);
+        console::set('Total transferred data',self::$transferred);
         parent::send($user, $message);
         @$user->lastMsg = $message;
     }
