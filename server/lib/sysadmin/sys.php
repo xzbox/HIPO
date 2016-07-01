@@ -39,7 +39,10 @@ class sys{
 		preg_match_all("/[a-z]+(\\s+'[\\w\\W]*?'|\\s+[0-9]+)*/",$message,$commands);
 		$commands   = $commands[0];
 		$count      = count($commands);
-
+		if(!isset($commands[0])){
+			sender::ByUser($user,'');
+			return;
+		}
 		$ex         = explode(' ',$commands[0]);
 		$in         = substr($commands[0],strlen($ex[0])+1);
 		preg_match_all("/'([\\w\\W]*?)'|([^\\s']+)/",$in,$p);
