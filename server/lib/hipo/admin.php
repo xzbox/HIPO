@@ -59,7 +59,7 @@ class admin{
 			$class = 'pages\\admin\\' . substr(basename($pages[$i]), 0, -4);
 			$class::load();
 			self::$pages[$class] = self::min($class::getTemplate($class));
-			$DB['template_page_' . $class] = self::$pages[$class];
+			$DB['template_page_pages\\' . substr(basename($pages[$i]), 0, -4)] = self::$pages[$class];
 			$md5 = md5($md5 . self::$pages[$class]);
 		}
 		$DB    = json_encode($DB);
