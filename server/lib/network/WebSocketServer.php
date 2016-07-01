@@ -652,9 +652,9 @@ abstract class WebSocketServer {
     } 
     elseif ($header['length'] == 127) {
       if ($header['hasmask']) {
-        $header['mask'] = $message[10] . $message[11] . $message[12] . $message[13];
+        $header['mask'] = @$message[10] . @$message[11] . @$message[12] . @$message[13];
       }
-      $header['length'] = ord($message[2]) * 65536 * 65536 * 65536 * 256 
+      $header['length'] = ord(@$message[2]) * 65536 * 65536 * 65536 * 256
                 + ord($message[3]) * 65536 * 65536 * 65536
                 + ord($message[4]) * 65536 * 65536 * 256
                 + ord($message[5]) * 65536 * 65536
