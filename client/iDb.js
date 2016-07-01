@@ -104,14 +104,30 @@ iDb.incrby = function(name,value){
 };
 /**
  *
+ * @param object
+ * @param prefix
+ */
+iDb.set_object = function(object,prefix){
+    if(prefix === undefined){
+        prefix = '';
+    }
+    for(var key in object){
+        var val = object[key];
+        if(typeof(val) == 'object'){
+            iDb.set_object(val,key+'.');
+        }else {
+            iDb.set(prefix+key,val);
+        }
+    }
+};
+/**
+ *
  * @param json
  * @constructor
  */
 iDb.SET_JSON = function(json){
-    json = JSON.parse(json);
-    for(var key in json){
-        iDb.set(key,json[key]);
-    }
+    var object = JSON.parse(json);
+    iDb.set_object(object);
 };
 /**
  *
