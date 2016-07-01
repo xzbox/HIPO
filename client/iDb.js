@@ -141,3 +141,20 @@ iDb.vue     = function(){
         template.set(key,val);
     }
 };
+/**
+ * Remove special key from local storage
+ * @param key
+ */
+iDb.unset   = function(key){
+    localStorage.removeItem(key);
+};
+/**
+ * Remove templates from local storage
+ */
+iDb.removeTemplate = function () {
+    var templates = iDb.keys('^template_page_pages.+');
+    for(var tem in templates){
+        iDb.unset(templates[tem]);
+    }
+    iDb.unset('templateHash');
+};
