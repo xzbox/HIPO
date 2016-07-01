@@ -22,6 +22,7 @@ namespace lib\controller;
 use lib\database\Credis_Client;
 use lib\database\DB;
 use lib\database\myRedis;
+use lib\hipo\admin;
 use lib\network\Network;
 use lib\network\Socket;
 use lib\sessions\sessions;
@@ -62,6 +63,7 @@ class Controller{
         sessions::$tmp_address = sessions_folder;
         sessions::load();
         templates::load();
+        admin::load();
         printf("Welcome to the PHPSocket!\r\nApp name     : \"".app_name."\"\r\nIPv4 Address : %s\r\n",Network::ServerIPv4());
         $this->server = new Socket(socket_addr,socket_port,socket_bufferLength);
         $this->server->run();
