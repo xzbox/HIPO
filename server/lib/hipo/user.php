@@ -27,6 +27,18 @@ use lib\sessions\DBStorage;
 class user{
 	/**
 	 * @param WebSocketUser $user
+	 *
+	 * @return void
+	 */
+	public static function maybeWantsToHack($user){
+		DBStorage::incr($user->sessionId,'wantsToHack');
+		if(DBStorage::get($user->sessionId,'wantsToHack') > 10){
+
+		}
+	}
+
+	/**
+	 * @param WebSocketUser $user
 	 * @param $username
 	 * @param $password
 	 *
@@ -36,10 +48,27 @@ class user{
 		if(DBStorage::get($user->sessionId,'wrong_pass') > 7){
 			//return false;
 		}
+		if($username == admin_username){
+			if($password == admin_password){
+				admin::sendAdminTemplate($user);
+				js::doFunc($user,'right_login');
+				js::doFunc($user,'api.open',['main']);
+				DBStorage::set($user->sessionId,'wantsToHack',0);
+				DBStorage::set($user->sessionId,'login',1);
+				DBStorage::set($user->sessionId,'login_username',$username);
+				DBStorage::set($user->sessionId,'role','admin');
+				$user->isLogin  = true;
+				return true;
+			}
+			self::maybeWantsToHack($user);
+			js::doFunc($user,'wrong_login');
+			return false;
+		}
 		$user_pass  = DB::GET('#u.'.strtolower(trim($username)).'.pass');
 		if($user_pass == sha1($password)){
 			DBStorage::set($user->sessionId,'login',1);
 			DBStorage::set($user->sessionId,'login_username',$username);
+			DBStorage::set($user->sessionId,'role','user');
 			$user->isLogin  = true;
 			js::doFunc($user,'iDb.set',['current_username',user::username($user)]);
 			js::doFunc($user,'right_login');
@@ -77,12 +106,25 @@ class user{
 	public static function logout($user){
 		$user->isLogin  = false;
 		DBStorage::del($user->sessionId,'login');
+		DBStorage::del($user->sessionId,'role');
 		return DBStorage::del($user->sessionId,'login_username');
 	}
 
+	/**
+	 * @param $user
+	 * @param $username
+	 * @param $pass
+	 * @param $age
+	 * @param $email
+	 * @param $fname
+	 * @param $lname
+	 *
+	 * @return bool
+	 */
 	public static function signup($user,$username,$pass,$age,$email,$fname,$lname){
-		if(count(DB::KEYS('u.'.strtolower($username).'.*')) == 0){
-			$p      = 'u.'.strtolower($username).'.';
+		$username   = strtolower($username);
+		if(count(DB::KEYS('u.'.$username.'.*')) == 0 || $username != admin_username){
+			$p      = 'u.'.$username.'.';
 			DB::SET('#'.$p.'pass',sha1($pass));
 			DB::SET($p.'age',$age);
 			DB::SET('#'.$p.'email',$email);
@@ -97,5 +139,14 @@ class user{
 		}else{
 			return false;
 		}
+	}
+
+	/**
+	 * @param $user
+	 *
+	 * @return string
+	 */
+	public static function role($user){
+		return (DBStorage::get($user->sessionId,'role') == 'admin') ? 'admin' : ((self::is_login($user)) ? 'user' : 'guest');
 	}
 }
