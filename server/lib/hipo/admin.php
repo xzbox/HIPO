@@ -18,6 +18,7 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
+
 namespace lib\hipo;
 use lib\client\js;
 use lib\client\sender;
