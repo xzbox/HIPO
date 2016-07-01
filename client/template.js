@@ -37,7 +37,7 @@ forms.readFile  = function(el){
     var blob      = el.files[0];
     var name      = $(el).attr('name');
     reader.onloadend    = function(){
-        forms.data[name]= btoa(parses);
+        forms.data[name]= btoa(reader.result);
         forms.dLength--;
         if(forms.dLength == 0){
             forms.send();
