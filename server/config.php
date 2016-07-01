@@ -44,7 +44,7 @@ if(class_exists('\lib\network\Network')){
 	/**
 	 * Socket's buffer length
 	 */
-	define('socket_bufferLength',2048);//2MB
+	define('socket_bufferLength',1024*1024*20*4/3);//20MB
 
 	/**
 	 * This constant is for times when you have a multi-language web application, and you want to set default language for new users.
