@@ -71,6 +71,11 @@ if(class_exists('\lib\network\Network')){
 	 * Redis' server port 6379 as default number
 	 */
 	define('redis_port',6379);
+	/**
+	 * Redis' server password
+	 * default value null
+	 */
+	define('redis_password',null);
 
 	/**
 	 * Print reports when it's true
