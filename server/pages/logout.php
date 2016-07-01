@@ -20,11 +20,13 @@
  *****************************************************************************/
 
 namespace pages;
+use lib\client\js;
 use lib\hipo\user;
 use lib\view\view;
 
 class logout extends view{
 	public static function connected($user) {
 		user::logout($user);
+		js::doFunc($user,'logout');
 	}
 }
