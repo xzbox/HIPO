@@ -20,7 +20,7 @@ Console is a place like command line (really it is) and gives you ability to run
 Don't be worry about security, you have to login before run any commands
 
 ##### How to use it?
-just open `console\indes.html` then use following command to connect and login into server
+just open `console\index.html` then use following command to connect and login into server
 ````
 connect [host] [port]
 login '[username]' '[password]'
