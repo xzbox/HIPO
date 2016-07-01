@@ -26,8 +26,18 @@ namespace lib\helper;
  * @package lib\helper
  */
 class console{
+	/**
+	 * @var int
+	 */
 	private static $len    = 0;
+	/**
+	 * @var array
+	 */
 	private static $data   = [];
+
+	/**
+	 * @return void
+	 */
 	private static function stdout(){
 		fwrite(STDOUT,"\r");
 		$out    = '';
@@ -41,17 +51,36 @@ class console{
 		fwrite(STDOUT,$out);
 		self::$len = $len;
 	}
+
+	/**
+	 * @param $key
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
 	public static function set($key,$value){
 		self::$data[$key]   = $value;
 		self::stdout();
 		return $value;
 	}
+
+	/**
+	 * @param $key
+	 *
+	 * @return bool
+	 */
 	public static function get($key){
 		if(isset(self::$data[$key])){
 			return self::$data[$key];
 		}
 		return false;
 	}
+
+	/**
+	 * @param $key
+	 *
+	 * @return bool
+	 */
 	public static function del($key){
 		if(isset(self::$data[$key])){
 			unset(self::$data[$key]);
