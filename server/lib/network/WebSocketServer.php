@@ -2,6 +2,8 @@
 
 namespace lib\network;
 
+use lib\helper\console;
+
 /**
  * Class WebSocketServer
  * @package lib\network
@@ -38,6 +40,8 @@ abstract class WebSocketServer {
     socket_listen($this->master,20)                               or die("Failed: socket_listen()");
     $this->sockets['m'] = $this->master;
     print("Listening on : $addr:$port\nMaster socket: {$this->master}\n");//By WSoc
+    console::set('Online clients',0);
+    console::set('Total transferred data',0);
     self::$socket = $this;//By WSoc
   }
 
