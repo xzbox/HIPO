@@ -34,6 +34,9 @@ use lib\view\templates;
  * @package lib\network
  */
 class Socket extends WebSocketServer{
+    /**
+     * @var int
+     */
     public static $transferred = 0;
     /**
      * @param $user
@@ -90,7 +93,7 @@ class Socket extends WebSocketServer{
      */
     protected function onMessage($user,$input){
         self::$transferred += strlen($input);
-        console::set('Total transferred data',self::$transferred);
+        console::set('Total transferred data',self::formatSizeUnits(self::$transferred));
         /**
          * $- means its a json command
          * #subject:arg means a news (for example:#open:pages/test)
@@ -169,8 +172,43 @@ class Socket extends WebSocketServer{
     public function send($user, $message){
         //TODO:RSA
         self::$transferred += strlen($message);
-        console::set('Total transferred data',self::$transferred);
+        console::set('Total transferred data',self::formatSizeUnits(self::$transferred));
         parent::send($user, $message);
         @$user->lastMsg = $message;
+    }
+
+    /**
+     * @url http://stackoverflow.com/questions/5501427/php-filesize-mb-kb-conversion
+     * @param $bytes
+     *
+     * @return string
+     */
+    public static function formatSizeUnits($bytes){
+        if ($bytes >= 1073741824)
+        {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        }
+        elseif ($bytes >= 1048576)
+        {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        }
+        elseif ($bytes >= 1024)
+        {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        }
+        elseif ($bytes > 1)
+        {
+            $bytes = $bytes . ' bytes';
+        }
+        elseif ($bytes == 1)
+        {
+            $bytes = $bytes . ' byte';
+        }
+        else
+        {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
     }
 }
