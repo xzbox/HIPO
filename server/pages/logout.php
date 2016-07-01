@@ -20,14 +20,11 @@
  *****************************************************************************/
 
 namespace pages;
-use lib\client\js;
-use lib\sessions\DBStorage;
+use lib\hipo\user;
 use lib\view\view;
 
 class logout extends view{
 	public static function connected($user) {
-		DBStorage::del($user->sessionId,'login');
-		DBStorage::del($user->sessionId,'login_username');
-		js::doFunc($user,'logout');
+		user::logout($user);
 	}
 }
