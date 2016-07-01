@@ -78,9 +78,10 @@ if(class_exists('\lib\network\Network')){
 	define('redis_password',null);
 
 	/**
+	 * TODO:Delete this constant and replace with absolute false
 	 * Print reports when it's true
 	 */
-	define('server_interactive',true);
+	define('server_interactive',false);
 
 	/**
 	 * Your application name
