@@ -16,11 +16,11 @@ chorme --app=file://$PATH/HIPO/server/client/app
 
 # Console
 ##### What is it?
-Console is a place like command line (really it is) and gives you ability to run some commands in server.
-Don't be worry about security, you have to login before run any commands
+Console is a place like command line (really it is) and gives you the ability to run some commands in server.
+Don't worry about the security, you have to login before running any commands.
 
 ##### How to use it?
-just open `console\index.html` then use following command to connect and login into server
+just open `console\index.html` then use following command to connect and login into server.
 ````
 connect [host] [port]
 login '[username]' '[password]'
