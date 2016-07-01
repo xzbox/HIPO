@@ -21,6 +21,7 @@
 namespace lib\network;
 use lib\client\js;
 use lib\database\DB;
+use lib\hipo\admin;
 use lib\hipo\user;
 use lib\sessions\DBStorage;
 use lib\sessions\sessions;
@@ -38,6 +39,7 @@ class Socket extends WebSocketServer{
      * @return void
      */
     private function sendTemplate($user){
+        $this->send($user,'iDb.removeTemplate()');
         $this->send($user,templates::jsCode());
         $this->send($user,js::jsFunc('iDb.set',['templateHash',templates::md5()]));
     }
@@ -60,10 +62,16 @@ class Socket extends WebSocketServer{
                 $user->sessionId = sessions::create($user);
                 $this->send($user,js::equal('localStorage.sessionId',$user->sessionId));
             }
-            if($get['md5'] !== templates::md5()){
-                $this->sendTemplate($user);
-            }
             $this->send($user,js::jsFunc('iDb.SET_JSON',[DB::GET_JSON()]));
+            if(user::role($user) == 'admin'){
+                if($get['md5'] !== templates::md5()){
+                    admin::sendAdminTemplate($user);
+                }
+            }else{
+                if($get['md5'] !== templates::md5()){
+                    $this->sendTemplate($user);
+                }
+            }
             if(user::is_login($user)){
                 js::doFunc($user,'iDb.set',['current_username',user::username($user)]);
                 js::doFunc($user,'right_login');
