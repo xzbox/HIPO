@@ -80,7 +80,7 @@ class Socket extends WebSocketServer{
             }
             if(user::is_login($user)){
                 js::doFunc($user,'iDb.set',['current_username',user::username($user)]);
-                js::doFunc($user,'right_login');
+                js::doFunc($user,'right_login',[user::role($user)]);
             }else{
                 js::doFunc($user,'logout');
             }
