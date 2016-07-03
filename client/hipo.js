@@ -17,19 +17,57 @@
  *                       Created by AliReza Ghadimi                          *
  *     <http://AliRezaGhadimi.ir>    LO-VE    <AliRezaGhadimy@Gmail.com>     *
  *****************************************************************************/
-var sidebar = new Vue({el:"#aside",replace:!1,data:{
+var sidebar = new Vue({el:"#container",replace:!1,data:{
     name:"مهمان",
-    page_name:"main"
+    page_name:"main",
+    role:'',
+    head_btn:'ورود',
+    head_btn_href:'#login'
 }});
+function createMenu(obj){
+    var re = '';
+    for(var key in obj){
+        var val = obj[key];
+        if(typeof(val.val) == 'object'){
+            re += '<li class="sub-menu">'+
+                '<a href="javascript:;"><i class="fa fa-'+val.icon+'"></i> <span>'+val.text+'</span></a>'+
+                '<ul class="sub">';
+            for(var k in val.val){
+                console.log(val.val[k]);
+                var v = val.val[k];
+                re += '<li class="{{(page_name == \''+v.page+'\') ? \'active\' : \'\'}}">'+
+                    '<a href="#'+v.page+'">'+ v.val+'</a></li>';
+            }
+            re += '</ul></li>';
+        }else{
+            re += '<li class="mt ">'+
+                '<a href="#'+val.page+'" class="{{(page_name == \''+val.page+'\') ? \'active\' : \'\'}}">'+
+                '<i class="fa fa-'+val.icon+'"></i> '+
+                '<span>'+val.val+'</span>'+
+                '</a>'+
+                '</li>';
+        }
+    }
+    return re;
+}
+function adminMenu(){
+    sidebar.$set('role','admin');
+}
+function adminUser(){
+    sidebar.$set('role','user');
+}
 function wrong_login(){
     template.vue.$set('wrong_login',true);
 }
-function right_login(){
+function right_login(role){
+    iDb.set('role',role);
+    sidebar.$set('role',role);
     iDb.set('is_login',1);
     sidebar.$set('is_login',1);
     sidebar.$set('name',iDb.get('u.'+iDb.get('current_username')+'.fname'));
     api.open('main');
-    $('#head_btn').attr('href','#logout').text('خروج');
+    sidebar.$set('head_btn','خروج');
+    sidebar.$set('head_btn_logout','#logout');
 }
 function signup_wrong_email(){
     template.vue.$set('wrong_email',true);
@@ -67,7 +105,8 @@ function logout(){
     iDb.set('is_login',0);
     sidebar.$set('is_login',0);
     api.open('login');
-    $('#head_btn').attr('href','#login').text('ورود');
+    sidebar.$set('head_btn','ورود');
+    sidebar.$set('head_btn_logout','#login');
     sidebar.$set('name','مهمان');
 }
 function getRank(username){
