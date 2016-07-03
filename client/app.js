@@ -183,7 +183,7 @@ function ws_connect(){
     ws.onclose  = function(){
         ws_hash                 = location.hash;
         api.status('Connection closed!',1000);
-        var time = 4;
+        var time = 2;
         setInterval(function(){
             if(time > 0){
                 api.status('Reconnecting in '+time+'s');
@@ -191,7 +191,7 @@ function ws_connect(){
             }
         },1000);
         ws  = null;
-        setTimeout('ws_connect()',5000);
+        setTimeout('ws_connect()',3000);
     };
     ws.onerror  = function(){
         ws  = null;
