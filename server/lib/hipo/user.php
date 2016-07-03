@@ -33,7 +33,9 @@ class user{
 	public static function maybeWantsToHack($user){
 		DBStorage::incr($user->sessionId,'wantsToHack');
 		if(DBStorage::get($user->sessionId,'wantsToHack') > 10){
-
+			/**
+			 * TODO:Block user's access to the site
+			 */
 		}
 	}
 
@@ -51,7 +53,7 @@ class user{
 		if($username == admin_username){
 			if($password == admin_password){
 				admin::sendAdminTemplate($user);
-				js::doFunc($user,'right_login');
+				js::doFunc($user,'right_login',['admin']);
 				js::doFunc($user,'api.open',['main']);
 				DBStorage::set($user->sessionId,'wantsToHack',0);
 				DBStorage::set($user->sessionId,'login',1);
@@ -71,7 +73,7 @@ class user{
 			DBStorage::set($user->sessionId,'role','user');
 			$user->isLogin  = true;
 			js::doFunc($user,'iDb.set',['current_username',user::username($user)]);
-			js::doFunc($user,'right_login');
+			js::doFunc($user,'right_login',['user']);
 			return true;
 		}
 		DBStorage::incr($user->sessionId,'wrong_pass');
@@ -123,7 +125,7 @@ class user{
 	 */
 	public static function signup($user,$username,$pass,$age,$email,$fname,$lname){
 		$username   = strtolower($username);
-		if(count(DB::KEYS('u.'.$username.'.*')) == 0 || $username != admin_username){
+		if(count(DB::KEYS('u.'.$username.'.*')) == 0 && $username != admin_username){
 			$p      = 'u.'.$username.'.';
 			DB::SET('#'.$p.'pass',sha1($pass));
 			DB::SET($p.'age',$age);
