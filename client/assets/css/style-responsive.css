@@ -52,7 +52,7 @@
         height:35px;
         line-height:35px;
         padding: 0 10px;
-        text-align: left;
+        text-align: right;
     }
     #sidebar > ul > li > a i{
         /*display: none !important;*/
