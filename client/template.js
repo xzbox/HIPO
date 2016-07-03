@@ -85,6 +85,45 @@ template.vue= new Vue({
     replace: false,
     data: {}
 });
+/**
+ * @type Object
+ */
+template.events = Object();
+/**
+ *
+ * @param event
+ * @param pageName
+ */
+template.pageLoad   = function (event,pageName){
+    if(pageName === undefined){
+        pageName = api.pageName;
+    }
+    var event_name = 'PHPSocket_load_'+pageName;
+    if(template.events[event_name] === undefined || template.events[event_name].toString() !== event.toString()){
+        console.log('asa');
+        $(document).on(event_name,event);
+        template.events[event_name] = event;
+    }
+};
+/**
+ *
+ * @param name
+ * @param value
+ */
+template.set    = function(name,value){
+    return template.vue.$set(name,value);
+};
+/**
+ *
+ * @param name
+ */
+template.get    = function(name){
+    return template.vue.$get(name);
+};
+/**
+ *
+ * @param tem
+ */
 template.load   = function(tem){
     /**
      * Insert template first with jQuery so it runs javascript
@@ -99,6 +138,8 @@ template.load   = function(tem){
     iDb.vue();
     forms.load();
     app.slideDown();
+    var event_name = 'PHPSocket_load_'+api.pageName;
+    $(document).trigger(event_name)
 };
 template.set    = function(name,value){
     template.vue.$set(name.replace('template_page_pages\\','pages.'),value);
