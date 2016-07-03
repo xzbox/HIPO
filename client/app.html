@@ -12,7 +12,7 @@
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -27,7 +27,7 @@
 
 <body>
 
-<section id="container" >
+<section id="container">
     <!-- **********************************************************************************************************************************************************
     TOP BAR CONTENT & NOTIFICATIONS
     *********************************************************************************************************************************************************** -->
@@ -39,9 +39,9 @@
         <!--logo start-->
         <a href="#about" class="logo" id="logo"><b>هیپو!</b></a>
         <!--logo end-->
-        <div class="top-menu">
+        <div class="top-menu hidden-xs">
             <ul class="nav pull-left top-menu">
-                <li><a id="head_btn" class="logout" href="#login">ورود</a></li>
+                <li><a id="head_btn" class="logout" href="{{head_btn_href}}">{{head_btn}}</a></li>
             </ul>
         </div>
     </header>
@@ -55,23 +55,29 @@
         <div id="sidebar" v-if="is_login == 1" class="nav-collapse">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-
-                <p class="centered"><a href="profile.html"><img id="userPic" src="assets/img/friends/fr-05.jpg" class="img-circle" width="60"></a></p>
-                <h5 id="userFName" class="centered">{{name}}</h5>
-
-                <li class="mt ">
-                    <a href="#main" class="{{(page_name == 'main') ? 'active' : ''}}">
-                        <i class="fa fa-dashboard"></i>
-                        <span>داشبورد</span>
-                    </a>
-                </li>
-                <li class="mt ">
-                    <a href="#page1" class="{{(page_name == 'page1') ? 'active' : ''}}">
-                        <i class="fa fa-home"></i>
-                        <span>صفحه یک</span>
-                    </a>
-                </li>
-
+                <template v-if="role == 'admin'">
+                    <h5 class="centered"></h5>
+                    <li class="mt "><a href="#main" class="{{(page_name == 'main') ? 'active' : ''}}"><i
+                            class="fa fa-tachometer"></i> <span>داشبورد</span></a></li>
+                    <li class="mt "><a href="#contests" class="{{(page_name == 'contests') ? 'active' : ''}}"><i
+                            class="fa fa-puzzle-piece"></i> <span>مسابقات</span></a></li>
+                    <li class="mt "><a href="#questions" class="{{(page_name == 'questions') ? 'active' : ''}}"><i
+                            class="fa fa-question-circle-o"></i> <span>سوالات</span></a></li>
+                    <li class="mt "><a href="#users" class="{{(page_name == 'users') ? 'active' : ''}}"><i
+                            class="fa fa-users"></i> <span>کاربران</span></a></li>
+                    <li class="mt "><a href="#ranking" class="{{(page_name == 'ranking') ? 'active' : ''}}"><i
+                            class="fa fa-book"></i> <span>جدول رتبه بندی</span></a></li>
+                    <li class="mt "><a href="#vms" class="{{(page_name == 'vms') ? 'active' : ''}}"><i
+                            class="fa fa-server"></i> <span>ماشین های مجازی</span></a></li>
+                </template>
+                <template v-else>
+                    <p class="centered"><a href="profile.html"><img id="userPic" src="assets/img/friends/fr-05.jpg"
+                                                                    class="img-circle" width="60"></a></p>
+                    <h5 id="userFName" class="centered">{{name}}</h5>
+                </template>
+                <li class="mt hidden-lg hidden-md hidden-sm visible-xs">
+                    <a href="{{head_btn_href}}" class="{{(page_name == 'vms') ? 'active' : ''}}"><i
+                        class="fa fa-sign-out"></i> <span>{{head_btn}}</span></a></li>
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -122,7 +128,7 @@
 <script>
     //custom select box
 
-    $(function(){
+    $(function () {
         //$('select.styled').customSelect();
     });
 
