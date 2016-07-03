@@ -165,6 +165,11 @@ iDb.unset   = function(key){
     localStorage.removeItem(key);
 };
 /**
+ * Alias for iDb.unset
+ * @type {iDb.unset|*}
+ */
+iDb.del     = iDb.unset;
+/**
  * Remove templates from local storage
  */
 iDb.removeTemplate = function () {
