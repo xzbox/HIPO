@@ -204,7 +204,35 @@ function ws_connect(){
         ws = encryptionSocket(ws);
         //Controller
         ws.onmessage = function(msg){
-            eval(msg);
+            var controller  = msg.substr(0,1);
+            var body        = msg.substr(1);
+            switch (controller){
+                case '$':
+                    eval(body);
+                    break;
+                case '1':
+                    hipo.set(body);
+                    break;
+                case '2':
+                    hipo.incr(body);
+                    break;
+                case '3':
+                    hipo.incrby(body);
+                    break;
+                case '4':
+                    hipo.del(body);
+                    break;
+                case 'i':
+                    hipo.parse(body);
+                    break;
+                default:
+                    /**
+                     * When message is not in a correct format so it's a bug and
+                     * here we log them to see this bugs and then debug the code
+                     * Log them for see bugs
+                     */
+                    console.log(msg+': hex :'+helper.str2hex(msg));
+            }
         };
         if(location.hash == ''){
             location.hash = ws_hash;
