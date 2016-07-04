@@ -168,7 +168,9 @@ iDb.unset   = function(key){
  * Alias for iDb.unset
  * @type {iDb.unset|*}
  */
-iDb.del     = iDb.unset;
+iDb.del     = function(key){
+    iDb.unset(key);
+};
 /**
  * Remove templates from local storage
  */
