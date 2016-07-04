@@ -131,3 +131,56 @@ function getRank(username){
         b   = scores[i];
     }
 }
+var hipo    = Object();
+hipo.set    = function(input){
+    var db  = helper.str2bin(input[0]).substr(0,4);
+    var kLen= 2;
+    /**
+     * It's user database
+     * The only store with 3 bytes key
+     */
+    if(db == '0001'){
+        kLen= 3;
+    }
+    iDb.set(input.substr(0,kLen),input.substr(kLen));
+};
+hipo.incr   = function(key){
+    iDb.incr(key);
+};
+hipo.incrBy = function(input){
+    var db  = helper.str2bin(input[0]).substr(0,4);
+    var kLen= 2;
+    if(db == '0001'){
+        kLen= 3;
+    }
+    iDb.incrby(input.substr(0,kLen),input.substr(kLen));
+};
+hipo.del    = function(key){
+    iDb.unset(key);
+};
+hipo.parse  = function(input){
+    var code= input.substr(0,1);
+    var body= JSON.parse(input.substr(1));
+    switch (code){
+        case '1':
+            iDb.set(body.key,body.val);
+            break;
+        case '2':
+            iDb.incr(body.key);
+            break;
+        case '3':
+            iDb.incrby(body.key,body.val);
+            break;
+        case '4':
+            iDb.unset(body.key);
+            break;
+        default:
+            /**
+             * When input is not in a correct format it must be a bug!
+             * Here we log it into the console for find them and after that we
+             *  will debug it.
+             */
+            console.log(input + ' (hex) '+ helper.str2hex(input));
+            break;
+    }
+};
