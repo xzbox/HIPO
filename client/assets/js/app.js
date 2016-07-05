@@ -83,31 +83,14 @@ api.urlInput     = '';
  * Lik name
  */
 api.requestPage = function(page){
-    var r           = /(\w*)\/*([\w]*)/;
-    page            = r.exec(page);
-    api.urlInput    = page[2];
-    page            = page[1];
     if(debug){
         console.log("Request Page:"+page);
+        console.log("caller is " + arguments.callee.caller.toString());
     }
-    var key = 'template_page_pages\\'+page;
-    if(iDb.keys(key).length == 0){
-        /**
-         * Handel 404 error
-         */
-        if(iDb.keys('template_page_pages\\er404').length == 0){
-            api.pageName    = '404';
-            template.load("<h1>404!</h1>")
-        }else{
-            api.pageName    = "template_page_pages\\er404";
-            template.load(iDb.get("template_page_pages\\err404"));
-        }
-    }else{
-        api.send('#closed:pages\\'+api.pageName);
-        api.send('#open:pages\\'+page);
-        api.pageName    = page;
-        template.load(template.make(page));
-    }
+    api.send('#closed:'+api.pageName);
+    api.send('#open:'+page);
+    api.pageName    = page;
+    template.make(page,true);
     sidebar.$set('page_name',api.pageName);
 };
 /**
@@ -157,15 +140,25 @@ api.status  = function(value,time){
     el.text(value);
     if(time !== undefined){
         setTimeout(function(){
-            el.text('');
+            el.hide();
         },time);
     }
+};
+/**
+ *
+ * @returns {boolean}
+ */
+api.isConnected = function () {
+    return api.status() == 'CONNECTED!';
 };
 api.show404 = function(){
     api.requestPage('er404');
 };
 window.onhashchange = function(){
-    api.requestPage(location.hash.substr(1));
+    var _p = location.hash.substr(1);
+    if(api.isConnected() && iDb.isset('role') && api.pageName !== _p){
+        api.requestPage(_p);
+    }
 };
 var ws_hash         = 'main';
 function ws_connect(){
@@ -233,12 +226,12 @@ function ws_connect(){
                      */
                     console.log(msg+': hex :'+helper.str2hex(msg));
             }
+            if(location.hash == ''){
+                location.hash = ws_hash;
+            }else {
+                window.onhashchange();
+            }
         };
-        if(location.hash == ''){
-            location.hash = ws_hash;
-        }else {
-            window.onhashchange();
-        }
     };
 }
 $(document).ready(function(){
