@@ -42,4 +42,35 @@ class strings{
     public static function addslashes_sq($string){
         return addcslashes($string,'\'\\');
     }
+
+    /**
+     * Convert strings to binary
+     * @param $str
+     *
+     * @return string
+     */
+    public static function str2bin($str){
+        $len    = strlen($str);
+        $re     = '';
+        for($i  = 0;$i < $len;$i++){
+            $re.= str_pad(decbin(ord($str[$i])),8,'0',STR_PAD_LEFT);
+        }
+        return $re;
+    }
+
+    /**
+     * Convert binary to string
+     * @param $bin
+     *
+     * @return string
+     */
+    public static function bin2str($bin){
+        $bin    = str_split($bin,8);
+        $count  = count($bin);
+        $re     = '';
+        for($i  = 0;$i < $count;$i++){
+            $re.= chr(bindec($bin[$i]));
+        }
+        return $re;
+    }
 }
