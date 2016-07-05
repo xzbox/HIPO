@@ -65,8 +65,9 @@ class Controller{
     public function run(){
         sessions::$tmp_address = sessions_folder;
         sessions::load();
-        templates::load();
-        admin::load();
+        DB::load();
+//        templates::load();
+//        admin::load();
         printf("Welcome to the PHPSocket!\r\nApp name     : \"".app_name."\"\r\nIPv4 Address : %s\r\n",Network::ServerIPv4());
         $this->server = new Socket(socket_addr,socket_port,socket_bufferLength);
         $this->server->run();
