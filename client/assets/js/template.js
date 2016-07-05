@@ -145,16 +145,23 @@ template.set    = function(name,value){
     template.vue.$set(name.replace('template_page_pages\\','pages.'),value);
 };
 template.incReg = new  RegExp('{{inc\\s+?(\\S+?)}}');
-template.make   = function (name){
-    if(iDb.isset('template_page_pages\\'+name)){
-        var tem = iDb.get('template_page_pages\\'+name);
-        var inc;
-        while(template.incReg.test(tem)){
-            inc = template.incReg.exec(tem);
-            tem = tem.replace(inc[0],iDb.get('template_page_pages\\'+inc[1]));
-        }
-        return tem;
-    }else {
-        return '';
+template.make   = function (name,a){
+    if(iDb.isset('role')){
+        $.get('pages/'+iDb.get('role')+'/'+name+'.html',function(tem){
+            var inc;
+            while(template.incReg.test(tem)){
+                inc = template.incReg.exec(tem);
+                tem = tem.replace(inc[0],template.make(inc[1],false));
+            }
+            if(a){
+                template.load(tem);
+            }
+        }).fail(function(e) {
+            if (a && e.status == '404' && name !== '../404'){
+                template.make('../404',true);
+            }else if(name == '../404'){
+                template.load('404!');
+            }
+        });
     }
 };
