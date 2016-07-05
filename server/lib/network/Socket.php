@@ -23,9 +23,7 @@ use lib\client\iDb;
 use lib\client\js;
 use lib\database\DB;
 use lib\helper\console;
-use lib\hipo\admin;
 use lib\hipo\user;
-use lib\sessions\DBStorage;
 use lib\sessions\sessions;
 use lib\sysadmin\sys;
 use lib\view\templates;
@@ -79,6 +77,7 @@ class Socket extends WebSocketServer{
                 iDb::set($user,'current_username',user::username($user));
                 js::doFunc($user,'right_login',[user::role($user)]);
             }else{
+                iDb::set($user,'role',user::role($user));
                 js::doFunc($user,'logout');
             }
         }
@@ -118,19 +117,21 @@ class Socket extends WebSocketServer{
                 unset($ex);
                 switch($subject){
                     case 'open':
-                        if(class_exists($arg)){
-                            $arg::connected($user);
+                        $class = 'pages\\'.user::role($user).'\\'.$arg;
+                        if(class_exists($class)){
+                            $class::connected($user);
                         }
                         break;
                     case 'closed':
-                        if(class_exists($arg)){
-                            $arg::closed($user);
+                        $class = 'pages\\'.user::role($user).'\\'.$arg;
+                        if(class_exists($class)){
+                            $class::closed($user);
                         }
                         break;
                 }
                 break;
             default:
-                $this->send($user,'console.error("Error! Bad Command.");');
+//                $this->send($user,'console.error("Error! Bad Command.");');
                 break;
         }
         unset($message);
