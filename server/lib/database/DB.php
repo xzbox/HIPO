@@ -32,6 +32,29 @@ class DB{
 	 * @var null|Credis_Client
 	 */
 	public static $DB = null;
+	/**
+	 * @var array
+	 */
+	private static $d   =   array();
+	/**
+	 * @var string
+	 */
+	private static $json= '';
+
+	/**
+	 * @return void
+	 */
+	public static function load(){
+		$keys   = self::KEYS('*');
+		$count  = count($keys);
+		for($i  = 0;$i < $count;$i++){
+			$key= $keys[$i];
+			if($key[0] != '#'){
+				self::$d[$keys[$i]] = self::GET($keys[$i]);
+			}
+		}
+		self::$json = json_encode(self::$d);
+	}
 
 	/**
 	 * @param $name
@@ -41,7 +64,9 @@ class DB{
 	 */
 	public static function SET($name,$value){
 		if($name[0] != '#'){
-			sender::ToAll(js::jsFunc("iDb.set", [$name,$value]));
+			//sender::ToAll(js::jsFunc("iDb.set", [$name,$value]));
+			self::$d[$name] = $value;
+			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->SET($name,$value);
 	}
@@ -53,7 +78,13 @@ class DB{
 	 */
 	public static function INCR($name){
 		if($name[0] != '#'){
-			sender::ToAll(js::jsFunc("iDb.incr",[$name]));
+			//sender::ToAll(js::jsFunc("iDb.incr",[$name]));
+			if(isset(self::$d[$name])){
+				self::$d[$name]++;
+			}else{
+				self::$d[$name] = 1;
+			}
+			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->INCR($name);
 	}
@@ -66,7 +97,13 @@ class DB{
 	 */
 	public static function INCRBY($name,$value){
 		if($name[0] != '#'){
-			sender::ToAll(js::jsFunc("iDb.incrby",[$name,$value]));
+			//sender::ToAll(js::jsFunc("iDb.incrby",[$name,$value]));
+			if(isset(self::$d[$name])){
+				self::$d[$name] += $value;
+			}else{
+				self::$d[$name] = $value;
+			}
+			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->INCRBY($name,$value);
 	}
@@ -95,6 +132,10 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function DEL($key){
+		if($key[0] !== '#'){
+			unset(self::$d[$key]);
+			self::$json     = json_encode(self::$d);
+		}
 		return self::$DB->DEL($key);
 	}
 
@@ -103,15 +144,6 @@ class DB{
 	 * @return string
 	 */
 	public static function GET_JSON(){
-		$keys   = self::KEYS('*');
-		$count  = count($keys);
-		$return = array();
-		for($i  = 0;$i < $count;$i++){
-			$key= $keys[$i];
-			if($key[0] != '#'){
-				$return[$keys[$i]] = self::GET($keys[$i]);
-			}
-		}
-		return json_encode($return);
+		return self::$json;
 	}
 }
