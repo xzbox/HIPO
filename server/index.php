@@ -33,19 +33,3 @@ include('config.php');
 $controller = new \lib\controller\Controller();
 include('config.php');
 $controller->run();
-
-//echo \lib\Network::ServerIPv4();
-//For run server type:CD /D E:\lab\WSoc && php index.php
-
-//User:Connect
-//Server:Accept
-//Server:Require Session id
-//User:Send session id
-//Server:If session id==Non make and send a new session id
-//      User:Save session id
-//Server:Send templates hash
-//User:if server's template hash!=template hash:Send request for give templates and remove old
-//      Server:Send new template hash with details
-//Finished So Simply
-//In this step user is free to work with application
-//echo json_encode([1,2,"H"=>'54',"sf"=>[4,5,7,"Ali"]]);
