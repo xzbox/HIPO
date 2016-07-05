@@ -53,7 +53,7 @@ class js{
             $argStr .= ',"'.strings::addslashes_dq($args[$i]).'"';
         }
         $code    = $name.'('.substr($argStr,1,strlen($argStr)).');';
-        return $code;
+        return '$'.$code;
     }
 
     /**
@@ -74,7 +74,7 @@ class js{
      * @return string
      */
     public static function equal($name,$value){
-        return $name.' = "'.strings::addslashes_dq($value).'";';
+        return '$'.$name.' = "'.strings::addslashes_dq($value).'";';
     }
 
 /*    public static function console(){
