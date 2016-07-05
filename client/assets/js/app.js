@@ -178,7 +178,7 @@ function ws_connect(){
     localStorage.sessionId  = sessionId;
     location.hash           = '';
 
-    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId+"&lang="+localStorage.lang+"&md5="+localStorage.getItem('templateHash');
+    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId;
     ws = new WebSocket(url);
     ws.onclose  = function(){
         ws_hash                 = location.hash;

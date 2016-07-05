@@ -101,14 +101,6 @@ function signup_success(){
     template.vue.$set('signup_success',true);
     setTimeout('api.open("main")',500);
 }
-function logout(){
-    iDb.set('is_login',0);
-    sidebar.$set('is_login',0);
-    api.open('login');
-    sidebar.$set('head_btn','ورود');
-    sidebar.$set('head_btn_logout','#login');
-    sidebar.$set('name','مهمان');
-}
 function getRank(username){
     var users   = iDb.keys('u.\\w+.score',0,false);
     var scores  = [];
@@ -132,6 +124,14 @@ function getRank(username){
     }
 }
 var hipo    = Object();
+hipo.logout = function(){
+    iDb.set('is_login',0);
+    sidebar.$set('is_login',0);
+    api.open('login');
+    sidebar.$set('head_btn','ورود');
+    sidebar.$set('head_btn_logout','#login');
+    sidebar.$set('name','مهمان');
+};
 hipo.set    = function(input){
     var db  = helper.str2bin(input[0]).substr(0,4);
     var kLen= 2;
@@ -173,6 +173,9 @@ hipo.parse  = function(input){
             break;
         case '4':
             iDb.unset(body.key);
+            break;
+        case '5':
+            iDb.set_object(body);
             break;
         default:
             /**
