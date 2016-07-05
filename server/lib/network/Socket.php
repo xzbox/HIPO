@@ -19,6 +19,7 @@
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
 namespace lib\network;
+use lib\client\iDb;
 use lib\client\js;
 use lib\database\DB;
 use lib\helper\console;
@@ -37,7 +38,11 @@ class Socket extends WebSocketServer{
     /**
      * @var int
      */
-    public static $transferred = 0;
+    public static $transferred  = 0;
+    /**
+     * @var int
+     */
+    public static $online       = 0;
     /**
      * @param $user
      *
@@ -55,31 +60,23 @@ class Socket extends WebSocketServer{
      * @return void
      */
     protected function connected($user){
-        console::set('Online clients',console::get('Connected clients')+1);
+        self::$online++;
+        console::set('Online clients',self::$online);
         parse_str(trim($user->headers['get'],'/'),$get);
         if(isset($get['IAMADMIN'])){
             $user->isAdmin  = 1;
         }else{
             $user->sessionId = $get['sessionId'] == undefined ? sessions::create($user) : $get['sessionId'];
-            $user->lang      = $get['lang'] == undefined ? default_lang : $get['lang'];
+            $user->lang      = default_lang;
             if($get['sessionId'] == undefined){
-                $this->send($user,js::equal('localStorage.sessionId',$user->sessionId));
+                iDb::set($user,'sessionId',$user->sessionId);
             }elseif(!sessions::issetId($get['sessionId'])){
                 $user->sessionId = sessions::create($user);
-                $this->send($user,js::equal('localStorage.sessionId',$user->sessionId));
+                iDb::set($user,'sessionId',$user->sessionId);
             }
-            $this->send($user,js::jsFunc('iDb.SET_JSON',[DB::GET_JSON()]));
-            if(user::role($user) == 'admin'){
-                if($get['md5'] !== templates::md5()){
-                    admin::sendAdminTemplate($user);
-                }
-            }else{
-                if($get['md5'] !== templates::md5()){
-                    $this->sendTemplate($user);
-                }
-            }
+            iDb::set_json($user,DB::GET_JSON());
             if(user::is_login($user)){
-                js::doFunc($user,'iDb.set',['current_username',user::username($user)]);
+                iDb::set($user,'current_username',user::username($user));
                 js::doFunc($user,'right_login',[user::role($user)]);
             }else{
                 js::doFunc($user,'logout');
@@ -102,10 +99,10 @@ class Socket extends WebSocketServer{
         switch($input[0]){
             case '$':
                 if(!($command = json_decode($message,true))){
-                    $this->send($user,'console.error("Error! Command should be in JSON format");');
+//                    $this->send($user,'console.error("Error! Command should be in JSON format");');
                     break;
                 }elseif(!class_exists($class = '\\commands\\'.$command['command'])){
-                    $this->send($user,'console.error("Error! Command not found.");');
+//                    $this->send($user,'console.error("Error! Command not found.");');
                     break;
                 }else{
                     if(!empty($re = $class::call($user,$command['data']))){
@@ -145,7 +142,8 @@ class Socket extends WebSocketServer{
      * @return void
      */
     protected function closed($user){
-        console::set('Online clients',console::get('Connected clients')-1);
+        self::$online--;
+        console::set('Online clients',self::$online);
     }
 
     /**
@@ -171,9 +169,9 @@ class Socket extends WebSocketServer{
      */
     public function send($user, $message){
         //TODO:RSA
+        parent::send($user, $message);
         self::$transferred += strlen($message);
         console::set('Total transferred data',self::formatSizeUnits(self::$transferred));
-        parent::send($user, $message);
         @$user->lastMsg = $message;
     }
 
