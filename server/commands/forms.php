@@ -20,6 +20,8 @@
  *****************************************************************************/
 namespace commands;
 
+use lib\hipo\user;
+
 /**
  * Class forms
  * @package lib\commands
@@ -35,7 +37,7 @@ class forms{
 		/**
 		 * @type \lib\form\form
 		 */
-		$class = 'forms\\'.$data['name'];
+		$class = 'forms\\'.user::role($user).'\\'.$data['name'];
 		if(!class_exists($class)){
 			return 'console.error("Form not found");';
 		}
