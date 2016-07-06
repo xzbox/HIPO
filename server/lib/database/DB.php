@@ -45,14 +45,7 @@ class DB{
 	 * @return void
 	 */
 	public static function load(){
-		$keys   = self::KEYS('*');
-		$count  = count($keys);
-		for($i  = 0;$i < $count;$i++){
-			$key= $keys[$i];
-			if($key[0] != '#'){
-				self::$d[$keys[$i]] = self::GET($keys[$i]);
-			}
-		}
+		self::$d['users']   =
 		self::$json = json_encode(self::$d);
 	}
 
@@ -145,5 +138,55 @@ class DB{
 	 */
 	public static function GET_JSON(){
 		return self::$json;
+	}
+
+	/**
+	 * @param $hash
+	 * @param $field
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public static function hset($hash,$field,$value){
+		return self::$DB->hset($hash,$field,$value);
+	}
+
+	/**
+	 * @param $hash
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public static function hget($hash,$field){
+		return self::$DB->hget($hash,$field);
+	}
+
+	/**
+	 * @param $hash
+	 *
+	 * @return mixed
+	 */
+	public static function hgetall($hash){
+		return self::$DB->hgetall($hash);
+	}
+
+	/**
+	 * @param $hash
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public static function hdel($hash,$field){
+		return self::$DB->hdel($hash,$field);
+	}
+
+	/**
+	 * @param        $hash
+	 * @param string $match
+	 *
+	 * @return void
+	 */
+	public static function hscan($hash,$match = ''){
+		//return self::$DB->__call()
 	}
 }
