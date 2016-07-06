@@ -18,7 +18,7 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
-namespace forms;
+namespace forms\guest;
 
 use lib\client\js;
 use lib\form\form;
