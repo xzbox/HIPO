@@ -39,7 +39,7 @@ class forms{
 		 */
 		$class = 'forms\\'.user::role($user).'\\'.$data['name'];
 		if(!class_exists($class)){
-			return 'console.error("Form not found");';
+			return '';
 		}
 		$class::call($user,$data['data']);
 		return $class::parse();
