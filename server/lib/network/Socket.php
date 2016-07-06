@@ -119,13 +119,13 @@ class Socket extends WebSocketServer{
                 unset($ex);
                 switch($subject){
                     case 'open':
-                        $class = 'pages\\'.user::role($user).'\\'.$arg;
+                        $class = 'pages\\_'.user::role($user).'\\'.$arg;
                         if(class_exists($class)){
                             $class::connected($user);
                         }
                         break;
                     case 'closed':
-                        $class = 'pages\\'.user::role($user).'\\'.$arg;
+                        $class = 'pages\\_'.user::role($user).'\\'.$arg;
                         if(class_exists($class)){
                             $class::closed($user);
                         }
