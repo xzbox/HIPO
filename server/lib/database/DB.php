@@ -184,9 +184,28 @@ class DB{
 	 * @param        $hash
 	 * @param string $match
 	 *
-	 * @return void
+	 * @return bool | array
 	 */
 	public static function hscan($hash,$match = ''){
-		//return self::$DB->__call()
+		return self::$DB->hscan($a,$hash,$match);
+	}
+
+	/**
+	 * @param $hash
+	 * @param $values
+	 *
+	 * @return array|bool|mixed|null|string
+	 * @throws CredisException
+	 */
+	public static function hmset($hash,$values){
+		$out    = array();
+		$keys   = array_keys($values);
+		$count  = count($values);
+		for($i  = 0;$i < $count;$i++){
+			$out[]  = $keys[$i];
+			$out[]  = $values[$keys[$i]];
+		}
+		unset($values,$count,$i,$keys);
+		return self::$DB->__call('hmset',$out);
 	}
 }
