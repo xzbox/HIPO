@@ -525,7 +525,7 @@ class Credis_Client {
 	 * @param int $Iterator
 	 * @param string $field
 	 * @param string $pattern
-	 * @param int $Iterator
+	 * @param int $count
 	 * @return bool | Array
 	 */
 	public function hscan(&$Iterator, $field, $pattern = null, $count = null)
