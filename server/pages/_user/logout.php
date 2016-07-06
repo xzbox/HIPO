@@ -19,12 +19,12 @@
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
 
-namespace pages;
+namespace pages\_user;
 use lib\client\js;
 use lib\hipo\user;
 use lib\view\view;
 
-class logout extends view{
+class logout extends view {
 	public static function connected($user) {
 		user::logout($user);
 		js::doFunc($user,'logout');
