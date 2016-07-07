@@ -160,7 +160,7 @@ window.onhashchange = function(){
         api.requestPage(_p);
     }
 };
-var ws_hash         = 'main';
+var ws_hash         = (location.hash == '' || location.hash == '#') ? '#main' : location.hash;
 function ws_connect(){
     api.status('Connecting...');
     /**
@@ -174,7 +174,6 @@ function ws_connect(){
     var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId;
     ws = new WebSocket(url);
     ws.onclose  = function(){
-        ws_hash                 = location.hash;
         api.status('Connection closed!',1000);
         var time = 2;
         setInterval(function(){
@@ -203,18 +202,6 @@ function ws_connect(){
                 case '$':
                     eval(body);
                     break;
-                case '1':
-                    hipo.set(body);
-                    break;
-                case '2':
-                    hipo.incr(body);
-                    break;
-                case '3':
-                    hipo.incrby(body);
-                    break;
-                case '4':
-                    hipo.del(body);
-                    break;
                 case 'i':
                     hipo.parse(body);
                     break;
@@ -226,12 +213,9 @@ function ws_connect(){
                      */
                     console.log(msg+': hex :'+helper.str2hex(msg));
             }
-            if(location.hash == ''){
-                location.hash = ws_hash;
-            }else {
-                window.onhashchange();
-            }
         };
+        location.hash = ws_hash;
+        window.onhashchange();
     };
 }
 $(document).ready(function(){

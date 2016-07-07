@@ -65,7 +65,6 @@ function right_login(role){
     iDb.set('is_login',1);
     sidebar.$set('is_login',1);
     sidebar.$set('name',iDb.get('u.'+iDb.get('current_username')+'.fname'));
-    api.open('main');
     sidebar.$set('head_btn','خروج');
     sidebar.$set('head_btn_logout','#logout');
 }
@@ -127,7 +126,6 @@ var hipo    = Object();
 logout = function(){
     iDb.set('is_login',0);
     sidebar.$set('is_login',0);
-    api.open('main');
     sidebar.$set('head_btn','ورود');
     sidebar.$set('head_btn_logout','#login');
     sidebar.$set('name','مهمان');
