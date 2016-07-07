@@ -58,7 +58,7 @@ class sender{
     /**
      * @param $msg
      *
-     * @return void
+     * @return int number of connected clients
      */
     public static function ToAll($msg){
         $count  = count(Socket::$socket->users);
@@ -66,6 +66,7 @@ class sender{
         for($i  = 0;$i < $count;$i++){
             @Socket::$socket->send(Socket::$socket->users[$keys[$i]],$msg);
         }
+        return $count;
     }
 
     /**
