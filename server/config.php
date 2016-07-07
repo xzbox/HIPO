@@ -76,6 +76,11 @@ if(class_exists('\lib\network\Network')){
 	 * default value null
 	 */
 	define('redis_password',null);
+	/**
+	 * Hipo's database
+	 * @int from 0-256
+	 */
+	define('redis_db',10);
 
 	/**
 	 * TODO:Delete this constant and replace with absolute false
