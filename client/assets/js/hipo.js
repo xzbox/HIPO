@@ -124,39 +124,13 @@ function getRank(username){
     }
 }
 var hipo    = Object();
-hipo.logout = function(){
+logout = function(){
     iDb.set('is_login',0);
     sidebar.$set('is_login',0);
-    api.open('login');
+    api.open('main');
     sidebar.$set('head_btn','ورود');
     sidebar.$set('head_btn_logout','#login');
     sidebar.$set('name','مهمان');
-};
-hipo.set    = function(input){
-    var db  = helper.str2bin(input[0]).substr(0,4);
-    var kLen= 2;
-    /**
-     * It's user database
-     * The only store with 3 bytes key
-     */
-    if(db == '0001'){
-        kLen= 3;
-    }
-    iDb.set(input.substr(0,kLen),input.substr(kLen));
-};
-hipo.incr   = function(key){
-    iDb.incr(key);
-};
-hipo.incrBy = function(input){
-    var db  = helper.str2bin(input[0]).substr(0,4);
-    var kLen= 2;
-    if(db == '0001'){
-        kLen= 3;
-    }
-    iDb.incrby(input.substr(0,kLen),input.substr(kLen));
-};
-hipo.del    = function(key){
-    iDb.unset(key);
 };
 hipo.parse  = function(input){
     var code= input.substr(0,1);
