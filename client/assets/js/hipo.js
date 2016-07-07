@@ -17,7 +17,7 @@
  *                       Created by AliReza Ghadimi                          *
  *     <http://AliRezaGhadimi.ir>    LO-VE    <AliRezaGhadimy@Gmail.com>     *
  *****************************************************************************/
-var sidebar = new Vue({el:"#container",replace:!1,data:{
+var sidebar = new Vue({el:"#header",replace:false,data:{
     name:"مهمان",
     page_name:"main",
     role:'',
@@ -131,6 +131,7 @@ logout = function(){
     sidebar.$set('head_btn','ورود');
     sidebar.$set('head_btn_logout','#login');
     sidebar.$set('name','مهمان');
+    sidebar.$set('role','guest');
 };
 hipo.parse  = function(input){
     var code= input.substr(0,1);
