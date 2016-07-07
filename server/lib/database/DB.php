@@ -50,6 +50,11 @@ class DB{
 	private static $json= '';
 
 	/**
+	 * @var bool
+	 */
+	private static $mkJson = true;
+
+	/**
 	 * @param $name
 	 *
 	 * @return void
@@ -77,7 +82,6 @@ class DB{
 		self::loadHash('questions');
 		self::loadHash('logs');
 		self::loadHash('sessions');
-		self::$json = json_encode(self::$d);
 	}
 
 	/**
@@ -92,7 +96,7 @@ class DB{
 		}else{
 			iDbToAll::set($name,$value);
 			self::$d[$name] = $value;
-			self::$json     = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->SET($name,$value);
 	}
@@ -116,7 +120,7 @@ class DB{
 				self::$d[$name] = 1;
 			}
 			iDbToAll::incr($name);
-			self::$json     = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->INCR($name);
 	}
@@ -141,7 +145,7 @@ class DB{
 				self::$d[$name] = $value;
 			}
 			iDbToAll::incrBy($name,$value);
-			self::$json     = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->INCRBY($name,$value);
 	}
@@ -179,7 +183,7 @@ class DB{
 		}else{
 			unset(self::$d[$key]);
 			iDbToAll::del($key);
-			self::$json     = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->DEL($key);
 	}
@@ -189,6 +193,10 @@ class DB{
 	 * @return string
 	 */
 	public static function GET_JSON(){
+		if(self::$mkJson){
+			self::$json     = json_encode(self::$d);
+			self::$mkJson   = false;
+		}
 		return self::$json;
 	}
 
@@ -205,7 +213,7 @@ class DB{
 		}else{
 			self::$d[$hash][$field] = $value;
 			iDbToAll::set($hash.'.'.$field,$value);
-			self::$json = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->hset($hash,$field,$value);
 	}
@@ -245,7 +253,7 @@ class DB{
 		}else{
 			unset(self::$d[$hash][$field]);
 			iDbToAll::del($hash.'.'.$field);
-			self::$json = json_encode(self::$d);
+			self::$mkJson = true;
 		}
 		return self::$DB->hdel($hash,$field);
 	}
@@ -279,7 +287,7 @@ class DB{
 			}else{
 				self::$d[$hash][$key] = $val;
 				iDbToAll::set($hash.'.'.$key,$val);
-				self::$json = json_encode(self::$d);
+				self::$mkJson = true;
 			}
 			$out[]  = $key;
 			$out[]  = $val;
