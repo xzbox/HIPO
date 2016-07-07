@@ -15,6 +15,7 @@
 .header .profile{
     height: 43px;
     border: none;
+    background-color: #f5f5f5;
 }
 .header .profile .profile-img{
     height: 35px;
