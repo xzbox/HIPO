@@ -30,7 +30,7 @@ class lang{
         $files = glob('lib/i18n/lang/*.php');
         $count = count($files);
         for($i = 0;$i < $count;$i++){
-            $code = substr($files[$i],5,strlen($files[$i])-9);
+            $code = substr(basename($files[$i]),0,-4);
             self::$lang[$code] = json_encode(['lang'=>include($files[$i])]);
         }
     }
