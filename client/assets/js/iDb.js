@@ -114,7 +114,7 @@ iDb.set_object = function(object,prefix){
     for(var key in object){
         var val = object[key];
         if(typeof(val) == 'object'){
-            iDb.set_object(val,prefix+'.'+key+'.');
+            iDb.set_object(val,prefix+key+'.');
         }else {
             iDb.set(prefix+key,val);
         }
