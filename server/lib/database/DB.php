@@ -20,6 +20,8 @@
  *****************************************************************************/
 namespace lib\database;
 
+use lib\client\iDb;
+use lib\client\iDbToAll;
 use lib\client\js;
 use lib\client\sender;
 
@@ -37,18 +39,44 @@ class DB{
 	 */
 	private static $d   =   array();
 	/**
+	 * This is an array for secret keys that we don't
+	 *  wan't to send them to client like passwords and etc...
+	 * @var array
+	 */
+	private static $a   =   array();
+	/**
 	 * @var string
 	 */
 	private static $json= '';
 
 	/**
+	 * @param $name
+	 *
+	 * @return void
+	 */
+	private static function loadHash($name){
+		$db     = self::hgetall($name);
+		$count  = count($db);
+		$keys   = array_keys($db);
+		for($i  = 0;$i < $count;$i++){
+			$key= $keys[$i];
+			if($key[0] == '#'){
+				self::$a[$name][$key]   = $db[$key];
+			}else{
+				self::$d[$name][$key]   = $db[$key];
+			}
+		}
+	}
+
+	/**
 	 * @return void
 	 */
 	public static function load(){
-		self::$d['users']       = self::hgetall('users');
-		self::$d['contests']    = self::hgetall('contests');
-		self::$d['questions']   = self::hgetall('questions');
-		self::$d['logs']        = self::hgetall('logs');
+		self::loadHash('users');
+		self::loadHash('contests');
+		self::loadHash('questions');
+		self::loadHash('logs');
+		self::loadHash('sessions');
 		self::$json = json_encode(self::$d);
 	}
 
@@ -59,8 +87,10 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function SET($name,$value){
-		if($name[0] != '#'){
-			//sender::ToAll(js::jsFunc("iDb.set", [$name,$value]));
+		if($name[0] == '#'){
+			self::$a[$name] = $value;
+		}else{
+			iDbToAll::set($name,$value);
 			self::$d[$name] = $value;
 			self::$json     = json_encode(self::$d);
 		}
@@ -73,13 +103,19 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function INCR($name){
-		if($name[0] != '#'){
-			//sender::ToAll(js::jsFunc("iDb.incr",[$name]));
+		if($name[0] == '#'){
+			if(isset(self::$a[$name])){
+				self::$a[$name]++;
+			}else{
+				self::$a[$name] = 1;
+			}
+		}else{
 			if(isset(self::$d[$name])){
 				self::$d[$name]++;
 			}else{
 				self::$d[$name] = 1;
 			}
+			iDbToAll::incr($name);
 			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->INCR($name);
@@ -92,13 +128,19 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function INCRBY($name,$value){
-		if($name[0] != '#'){
-			//sender::ToAll(js::jsFunc("iDb.incrby",[$name,$value]));
+		if($name[0] == '#'){
+			if(isset(self::$a[$name])){
+				self::$a[$name] += $value;
+			}else{
+				self::$a[$name] = $value;
+			}
+		}else{
 			if(isset(self::$d[$name])){
 				self::$d[$name] += $value;
 			}else{
 				self::$d[$name] = $value;
 			}
+			iDbToAll::incrBy($name,$value);
 			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->INCRBY($name,$value);
@@ -110,16 +152,20 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function GET($name){
-		return self::$DB->GET($name);
+		if($name[0] == '#'){
+			return @self::$a[$name];
+		}else{
+			return @self::$d[$name];
+		}
 	}
 
 	/**
-	 * @param $name
+	 * @param string $pattern
 	 *
-	 * @return array|bool|int|string
+	 * @return mixed
 	 */
-	public static function KEYS($name){
-		return self::$DB->KEYS($name);
+	public static function KEYS($pattern = '*'){
+		return self::$DB->KEYS($pattern);
 	}
 
 	/**
@@ -128,8 +174,11 @@ class DB{
 	 * @return array|bool|int|string
 	 */
 	public static function DEL($key){
-		if($key[0] !== '#'){
+		if($key[0] == '#'){
+			unset(self::$a[$key]);
+		}else{
 			unset(self::$d[$key]);
+			iDbToAll::del($key);
 			self::$json     = json_encode(self::$d);
 		}
 		return self::$DB->DEL($key);
@@ -151,6 +200,13 @@ class DB{
 	 * @return mixed
 	 */
 	public static function hset($hash,$field,$value){
+		if($field[0] == '#'){
+			self::$a[$hash][$field] = $value;
+		}else{
+			self::$d[$hash][$field] = $value;
+			iDbToAll::set($hash.'.'.$field,$value);
+			self::$json = json_encode(self::$d);
+		}
 		return self::$DB->hset($hash,$field,$value);
 	}
 
@@ -161,7 +217,11 @@ class DB{
 	 * @return mixed
 	 */
 	public static function hget($hash,$field){
-		return self::$DB->hget($hash,$field);
+		if($field[0] == '#'){
+			return @self::$a[$hash][$field];
+		}else{
+			return @self::$d[$hash][$field];
+		}
 	}
 
 	/**
@@ -180,6 +240,13 @@ class DB{
 	 * @return mixed
 	 */
 	public static function hdel($hash,$field){
+		if($field[0] == '#'){
+			unset(self::$a[$hash][$field]);
+		}else{
+			unset(self::$d[$hash][$field]);
+			iDbToAll::del($hash.'.'.$field);
+			self::$json = json_encode(self::$d);
+		}
 		return self::$DB->hdel($hash,$field);
 	}
 
@@ -205,10 +272,19 @@ class DB{
 		$keys   = array_keys($values);
 		$count  = count($values);
 		for($i  = 0;$i < $count;$i++){
-			$out[]  = $keys[$i];
-			$out[]  = $values[$keys[$i]];
+			$key    = $keys[$i];
+			$val    = $values[$key];
+			if($key[0] == '#'){
+				self::$a[$hash][$key] = $val;
+			}else{
+				self::$d[$hash][$key] = $val;
+				iDbToAll::set($hash.'.'.$key,$val);
+				self::$json = json_encode(self::$d);
+			}
+			$out[]  = $key;
+			$out[]  = $val;
 		}
-		unset($values,$count,$i,$keys);
+		unset($values,$count,$i,$keys,$key,$val);
 		return self::$DB->__call('hmset',$out);
 	}
 }
