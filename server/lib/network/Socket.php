@@ -20,11 +20,13 @@
  *****************************************************************************/
 namespace lib\network;
 use lib\client\iDb;
+use lib\client\iDbToAll;
 use lib\client\js;
 use lib\database\DB;
 use lib\helper\console;
 use lib\hipo\admin;
 use lib\hipo\user;
+use lib\i18n\lang;
 use lib\sessions\DBStorage;
 use lib\sessions\sessions;
 use lib\sysadmin\sys;
@@ -75,6 +77,7 @@ class Socket extends WebSocketServer{
                 iDb::set($user,'sessionId',$user->sessionId);
             }
             iDb::set_json($user,DB::GET_JSON());
+            iDb::set_json($user,lang::get($user->lang));
             if(user::is_login($user)){
                 iDb::set($user,'current_username',user::username($user));
                 js::doFunc($user,'right_login',[user::role($user)]);
