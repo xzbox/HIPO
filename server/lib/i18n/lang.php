@@ -31,7 +31,7 @@ class lang{
         $count = count($files);
         for($i = 0;$i < $count;$i++){
             $code = substr($files[$i],5,strlen($files[$i])-9);
-            self::$lang[$code] = include($files[$i]);
+            self::$lang[$code] = json_encode(['lang'=>include($files[$i])]);
         }
     }
 
