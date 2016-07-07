@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="QTI3E">
-    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <link rel="icon" href="assets/img/ico.png" type="image/png"/>
     <title>هیپو</title>
 
@@ -13,10 +12,8 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-    <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/style-responsive.css" rel="stylesheet">
+    <!-- styles for this template -->
+    <link href="assets/css/dash.css" rel="stylesheet"/>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -27,80 +24,34 @@
 
 <body>
 
-<section id="container">
-    <!-- **********************************************************************************************************************************************************
-    TOP BAR CONTENT & NOTIFICATIONS
-    *********************************************************************************************************************************************************** -->
-    <!--header start-->
-    <header class="header black-bg">
-        <div class="pull-right sidebar-toggle-box">
-            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-        </div>
-        <!--logo start-->
-        <a href="#about" class="logo" id="logo"><b>هیپو!</b></a>
-        <!--logo end-->
-        <div class="top-menu hidden-xs">
-            <ul class="nav pull-left top-menu">
-                <li><a id="head_btn" class="logout" href="{{head_btn_href}}">{{head_btn}}</a></li>
-            </ul>
-        </div>
-    </header>
-    <!--header end-->
-
-    <!-- **********************************************************************************************************************************************************
-    MAIN SIDEBAR MENU
-    *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
-    <aside id="aside">
-        <div id="sidebar" v-if="is_login == 1" class="nav-collapse">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-                <template v-if="role == 'admin'">
-                    <h5 class="centered"></h5>
-                    <li class="mt "><a href="#main" class="{{(page_name == 'main') ? 'active' : ''}}"><i
-                            class="fa fa-tachometer"></i> <span>داشبورد</span></a></li>
-                    <li class="mt "><a href="#contests" class="{{(page_name == 'contests') ? 'active' : ''}}"><i
-                            class="fa fa-puzzle-piece"></i> <span>مسابقات</span></a></li>
-                    <li class="mt "><a href="#questions" class="{{(page_name == 'questions') ? 'active' : ''}}"><i
-                            class="fa fa-question-circle-o"></i> <span>سوالات</span></a></li>
-                    <li class="mt "><a href="#users" class="{{(page_name == 'users') ? 'active' : ''}}"><i
-                            class="fa fa-users"></i> <span>کاربران</span></a></li>
-                    <li class="mt "><a href="#ranking" class="{{(page_name == 'ranking') ? 'active' : ''}}"><i
-                            class="fa fa-book"></i> <span>جدول رتبه بندی</span></a></li>
-                    <li class="mt "><a href="#vms" class="{{(page_name == 'vms') ? 'active' : ''}}"><i
-                            class="fa fa-server"></i> <span>ماشین های مجازی</span></a></li>
-                </template>
-                <template v-else>
-                    <p class="centered"><a href="profile.html"><img id="userPic" src="assets/img/friends/fr-05.jpg"
-                                                                    class="img-circle" width="60"></a></p>
-                    <h5 id="userFName" class="centered">{{name}}</h5>
-                </template>
-                <li class="mt hidden-lg hidden-md hidden-sm visible-xs">
-                    <a href="{{head_btn_href}}" class="{{(page_name == 'vms') ? 'active' : ''}}"><i
-                        class="fa fa-sign-out"></i> <span>{{head_btn}}</span></a></li>
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
-    <!--sidebar end-->
-
-    <!-- **********************************************************************************************************************************************************
-    MAIN CONTENT
-    *********************************************************************************************************************************************************** -->
-    <!--main content start-->
-    <section id="main-content">
-        <section class="wrapper site-min-height" id="app">
-        </section><!--/wrapper -->
-    </section><!-- /MAIN CONTENT --
-    <!--main content end-->
-    <label id="status"></label>
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            2016 - QTI&#398;E
-        </div>
-    </footer>
-    <!--footer end-->
+<section class="container-fluid">
+    <section class="container-fluid header">
+        <section class="container">
+            <div class="row">
+                <div class="col-md-2 col-lg-2 col-sm-2">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle profile" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <img src="assets/img/friends/fr-02.jpg" class="profile-img img-circle">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-2 col-sm-offset-7">
+                    <img src="assets/img/hipo-logo-small.png" class="logo">
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="container" id="app">
+        Body
+    </section>
 </section>
 
 <!-- js placed at the end of the document so the pages load faster -->
