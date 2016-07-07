@@ -20,6 +20,7 @@ abstract class WebSocketServer {
   protected $headerOriginRequired                 = false;
   protected $headerSecWebSocketProtocolRequired   = false;
   protected $headerSecWebSocketExtensionsRequired = false;
+  protected $blockedIP                            = array();
   /**
    * @var WebSocketServer
    */
@@ -287,6 +288,11 @@ abstract class WebSocketServer {
     if (($this->headerOriginRequired && !isset($headers['origin']) ) || ($this->headerOriginRequired && !$this->checkOrigin($headers['origin']))) {
       $handshakeResponse = "HTTP/1.1 403 Forbidden";
     }
+    socket_getpeername($user->socket,$ip);
+    if(!$this->checkIP($ip)){
+      $handshakeResponse = "HTTP/1.1 403 Forbidden";
+    }
+    $handshakeResponse = "HTTP/1.1 403 Forbidden";
     if (($this->headerSecWebSocketProtocolRequired && !isset($headers['sec-websocket-protocol'])) || ($this->headerSecWebSocketProtocolRequired && !$this->checkWebsocProtocol($headers['sec-websocket-protocol']))) {
       $handshakeResponse = "HTTP/1.1 400 Bad Request";
     }
@@ -339,6 +345,42 @@ abstract class WebSocketServer {
 	 */
   protected function checkOrigin($origin) {
     return true; // Override and return false if the origin is not one that you would expect.
+  }
+
+  /**
+   * @param $ip
+   *
+   * @return bool
+   */
+  protected function checkIP($ip){
+    return !isset($this->blockedIP[$ip]);
+  }
+
+  /**
+   * @param $ip
+   *
+   * @return void
+   */
+  protected function blockIP($ip){
+    $this->blockedIP[$ip] = true;
+  }
+
+  /**
+   * @param $user
+   *
+   * @return void
+   */
+  protected function blockUser($user){
+    $this->blockIP($this->getUserIP($user)['address']);
+  }
+
+  /**
+   * @param $ip
+   *
+   * @return void
+   */
+  protected function unblockIP($ip){
+    unset($this->blockedIP[$ip]);
   }
 
 	/**
@@ -414,6 +456,19 @@ abstract class WebSocketServer {
     if ($this->interactive) {
       echo "$message\n";
     }
+  }
+
+  /**
+   * @param $user
+   *
+   * @return string
+   */
+  public function getUserIP($user){
+    socket_getpeername($user->socket,$address,$port);
+    return [
+      'address' =>$address,
+      'port'    =>$port
+    ];
   }
 
 	/**
