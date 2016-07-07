@@ -45,7 +45,10 @@ class DB{
 	 * @return void
 	 */
 	public static function load(){
-		self::$d['users']   =
+		self::$d['users']       = self::hgetall('users');
+		self::$d['contests']    = self::hgetall('contests');
+		self::$d['questions']   = self::hgetall('questions');
+		self::$d['logs']        = self::hgetall('logs');
 		self::$json = json_encode(self::$d);
 	}
 
