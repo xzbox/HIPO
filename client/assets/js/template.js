@@ -128,7 +128,7 @@ template.load   = function(tem){
     /**
      * Insert template first with jQuery so it runs javascript
      */
-    var app = $('#app').slideUp(500).html(tem);
+    var app = $('#app').html(tem);
     template.vue= new Vue({
         el: '#app',
         //template: tem,
@@ -137,7 +137,6 @@ template.load   = function(tem){
     });
     iDb.vue();
     forms.load();
-    app.slideDown();
     var event_name = 'PHPSocket_load_'+api.pageName;
     $(document).trigger(event_name)
 };
