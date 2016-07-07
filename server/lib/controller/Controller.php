@@ -59,7 +59,7 @@ class Controller{
         /**
          * Make connection to the redis server
          */
-        DB::$DB = new Credis_Client(redis_host,redis_port,null,'',0,redis_password);
+        DB::$DB = new Credis_Client(redis_host,redis_port,null,'',redis_db,redis_password);
     }
 
     public function run(){
