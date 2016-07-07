@@ -91,7 +91,7 @@ if(class_exists('\lib\network\Network')){
 	/**
 	 * Your application name
 	 */
-	define('app_name','Demo');
+	define('app_name','HIPO');
 
 	/**
 	 * sysadmin's user  name

@@ -68,7 +68,7 @@ class Controller{
         DB::load();
 //        templates::load();
 //        admin::load();
-        printf("Welcome to the PHPSocket!\r\nApp name     : \"".app_name."\"\r\nIPv4 Address : %s\r\n",Network::ServerIPv4());
+        printf("Welcome to the ".app_name."!\r\nApp name     : \"".app_name."\"\r\nIPv4 Address : %s\r\n",Network::ServerIPv4());
         $this->server = new Socket(socket_addr,socket_port,socket_bufferLength);
         $this->server->run();
     }
