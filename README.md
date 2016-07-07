@@ -35,7 +35,6 @@ login '[username]' '[password]'
 #### Client
 1. [Vue.js](https://vuejs.org/)
 2. [jQuery](https://jquery.org/)
-3. [DASHGUM FREE](https://github.com/natuchasca/Dashgum)
 
 #### Console
 1. [JQuery Terminal Emulator Plugin](http://terminal.jcubic.pl/)
