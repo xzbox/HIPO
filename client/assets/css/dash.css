@@ -1,0 +1,28 @@
+.header{
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
+    height: 45px;
+    margin-left: -10px;
+    margin-right: -10px;
+    position: fixed;
+    top:0;
+    right: 0;
+    left:0;
+}
+.header .logo{
+    height: 45px;
+}
+.header .profile{
+    height: 43px;
+    border: none;
+}
+.header .profile .profile-img{
+    height: 35px;
+}
+.dropdown-menu{
+    text-align: inherit;
+    float: none;
+}
+#app{
+    margin-top: 45px;
+}
