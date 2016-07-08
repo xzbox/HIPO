@@ -191,9 +191,9 @@ function ws_connect(){
     /**
      * TODO: Remove this 4 lines after fix iDb;
      */
-    var sessionId = localStorage.sessionId;
-    localStorage.clear();
-    localStorage.sessionId  = sessionId;
+    //var sessionId = localStorage.sessionId;
+    //localStorage.clear();
+    //localStorage.sessionId  = sessionId;
     location.hash           = '';
 
     var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId;
@@ -235,6 +235,7 @@ function ws_connect(){
         ws  = null;
     };
     ws.onopen = function(){
+        reconnect_time = 0;
         percent.set(100);
         api.status('CONNECTED!',1000);
         if(debug){
