@@ -27,30 +27,4 @@ return [
     'info'=>'Info',
     'success'=>'success',
     'success_msg'=>'Your operation finished successful.',
-    'err'=>[
-        '404'=>[
-            'Page Not Find!',
-            'Sorry,but your requested page in not exists!'
-        ],
-        '405'=>[
-            'Method Not Allowed.',
-            'Sorry,but your requested method is not allowed from this server!'
-        ],
-        '400'=>[
-            'Bad Request',
-            'Oh!You sent a bad request.'
-        ],
-        '426'=>[
-            'Version Error',
-            'You have to upgrade your client.'
-        ],
-        '403'=>[
-            'Accesses Defended',
-            'You don\'t have promise to get this url from this server.'
-        ],
-        '200'=>[
-            'OK!',
-            'Any thing is good.'
-        ]
-    ]
 ];
