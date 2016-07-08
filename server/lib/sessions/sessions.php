@@ -21,6 +21,7 @@
 namespace lib\sessions;
 
 use lib\helper\validation;
+use lib\network\Socket;
 use lib\network\WebSocketUser;
 
 /**
@@ -106,7 +107,8 @@ final class sessions{
      * @return string
      */
     public static function create($user){
-        $sessionId = sha1(sha1($user->headers['sec-websocket-key'].rand(1000,10000)).rand(10001,100000));
+        $ip         = Socket::$socket->getUserIP($user);
+        $sessionId  = md5($ip['address'].$ip['port'].rand(10001,100000));
         file_put_contents(self::$tmp_address.'/ses_'.$sessionId,self::encode([]));
         self::$sessions[$sessionId] = array();
         return $sessionId;
