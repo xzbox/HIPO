@@ -137,7 +137,7 @@ api.status  = function(value,time){
     if(value === undefined){
         return el.text();
     }
-    el.text(value);
+    el.show().text(value);
     if(time !== undefined){
         setTimeout(function(){
             el.hide();
@@ -160,6 +160,7 @@ window.onhashchange = function(){
         api.requestPage(_p);
     }
 };
+var reconnect_time  = 0;
 var ws_hash         = (location.hash == '' || location.hash == '#') ? '#main' : location.hash;
 function ws_connect(){
     api.status('Connecting...');
@@ -175,7 +176,8 @@ function ws_connect(){
     ws = new WebSocket(url);
     ws.onclose  = function(){
         api.status('Connection closed!',1000);
-        var time = 2;
+        reconnect_time += reconnect_after;
+        var time = reconnect_time;
         setInterval(function(){
             if(time > 0){
                 api.status('Reconnecting in '+time+'s');
@@ -183,7 +185,7 @@ function ws_connect(){
             }
         },1000);
         ws  = null;
-        setTimeout('ws_connect()',3000);
+        setTimeout('ws_connect()',reconnect_time*1000+1000);
     };
     ws.onerror  = function(){
         ws  = null;
