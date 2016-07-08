@@ -137,7 +137,7 @@ api.status  = function(value,time){
     if(value === undefined){
         return el.text();
     }
-    el.show().text(value);
+    el.show().html(value);
     if(time !== undefined){
         setTimeout(function(){
             el.hide();
@@ -160,8 +160,32 @@ window.onhashchange = function(){
         api.requestPage(_p);
     }
 };
+var percent = Object();
+percent.el  = $('.percent');
+percent.set = function (p) {
+    if(p > 100){
+        p = 100;
+    }
+    if(0 < p && p <= 1){
+        p *= 100;
+    }
+    percent.el.stop().animate({width:p+'%'},1000);
+    if(p == 100){
+        setTimeout(function(){
+            percent.el.stop().css('width',0);
+        },1000);
+    }
+};
+percent.hide    = function(){
+    percent.el.css('width',0);
+};
 var reconnect_time  = 0;
 var ws_hash         = (location.hash == '' || location.hash == '#') ? '#main' : location.hash;
+var _time;
+api.tryNow        = function(){
+    _time = -1;
+    reconnect_time = 0;
+};
 function ws_connect(){
     api.status('Connecting...');
     /**
@@ -177,20 +201,25 @@ function ws_connect(){
     ws.onclose  = function(){
         api.status('Connection closed!',1000);
         reconnect_time += reconnect_after;
-        var time = reconnect_time;
-        setInterval(function(){
-            if(time > 0){
-                api.status('Reconnecting in '+time+'s');
-                time--;
+        _time = reconnect_time;
+        var timerId = setInterval(function(){
+            if(_time > -1){
+                api.status('Reconnecting in '+_time+'s <a href="javascript:api.tryNow();">Try now...</a>');
+                percent.set((reconnect_time - _time) / reconnect_time);
+                _time--;
+            }
+            if(_time == -1){
+                ws_connect();
+                clearInterval(timerId);
             }
         },1000);
         ws  = null;
-        setTimeout('ws_connect()',reconnect_time*1000+1000);
     };
     ws.onerror  = function(){
         ws  = null;
     };
     ws.onopen = function(){
+        percent.set(100);
         api.status('CONNECTED!',1000);
         if(debug){
             console.log("CONNECTED TO:"+url)
