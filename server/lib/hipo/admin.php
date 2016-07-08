@@ -23,7 +23,16 @@ namespace lib\hipo;
 
 use lib\database\DB;
 
+/**
+ * Class admin
+ * @package lib\hipo
+ */
 class admin{
+	/**
+	 * @param $values
+	 *
+	 * @return bool
+	 */
 	public static function createContest($values){
 		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
 			DB::INCR('contestId');
@@ -36,6 +45,13 @@ class admin{
 		}
 		return false;
 	}
+
+	/**
+	 * @param $id
+	 * @param $values
+	 *
+	 * @return bool
+	 */
 	public static function editContest($id,$values){
 		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
 			DB::hset('contests',$id.'.name',$values['name']);
@@ -47,9 +63,36 @@ class admin{
 		return false;
 	}
 
+	/**
+	 * @param $id
+	 *
+	 * @return void
+	 */
+	public static function removeContest($id){
+		DB::hdel('contests',$id.'.name');
+		DB::hdel('contests',$id.'.level');
+		DB::hdel('contests',$id.'.start');
+		DB::hdel('contests',$id.'.end');
+		$questions  = DB::hscan('questions','*.contest');
+		$count      = count($questions);
+		$keys       = array_keys($questions);
+		for($i      = 0;$i < $count;$i++){
+			if($questions[$keys[$i]] == $id){
+				preg_match_all('/(.+)\.contest/',$questions[$keys[$i]],$questionId);
+				$questionId = $questionId[1][0];
+				self::removeQuestion($questionId);
+			}
+		}
+	}
+
+	/**
+	 * @param $values
+	 *
+	 * @return bool
+	 */
 	public static function createQuestion($values){
 		if(isset($values['name']) && isset($values['level']) && isset($values['contest']) && isset($values['si']) &&
-			isset($values['so']) && isset($values['ci']) && isset($values['co'])){
+			isset($values['so']) && isset($values['ci']) && isset($values['co']) && isset($values['content'])){
 
 			DB::INCR('questionId');
 			$id = DB::GET('questionId');
@@ -58,26 +101,68 @@ class admin{
 			DB::hset('questions',$id.'.contest',$values['contest']);
 			DB::hset('questions',$id.'.si',$values['si']);
 			DB::hset('questions',$id.'.so',$values['so']);
-			DB::hset('questions',$id.'.ci',$values['ci']);
-			DB::hset('questions',$id.'.co',$values['co']);
+			DB::hset('questions','#'.$id.'.ci',$values['ci']);
+			DB::hset('questions','#'.$id.'.co',$values['co']);
+			DB::hset('questions',$id.'.content',$values['content']);
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * @param $id
+	 * @param $values
+	 *
+	 * @return bool
+	 */
 	public static function editQuestion($id,$values){
 		if(isset($values['name']) && isset($values['level']) && isset($values['contest']) && isset($values['si']) &&
-				isset($values['so']) && isset($values['ci']) && isset($values['co'])){
+				isset($values['so']) && isset($values['ci']) && isset($values['co']) && isset($values['content'])){
 
 			DB::hset('questions',$id.'.name',$values['name']);
 			DB::hset('questions',$id.'.level',$values['level']);
 			DB::hset('questions',$id.'.contest',$values['contest']);
 			DB::hset('questions',$id.'.si',$values['si']);
 			DB::hset('questions',$id.'.so',$values['so']);
-			DB::hset('questions',$id.'.ci',$values['ci']);
-			DB::hset('questions',$id.'.co',$values['co']);
+			DB::hset('questions','#'.$id.'.ci',$values['ci']);
+			DB::hset('questions','#'.$id.'.co',$values['co']);
+			DB::hset('questions',$id.'.content',$values['content']);
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return void
+	 */
+	public static function removeQuestion($id){
+		DB::hdel('questions',$id.'.name');
+		DB::hdel('questions',$id.'.level');
+		DB::hdel('questions',$id.'.contest');
+		DB::hdel('questions',$id.'.si');
+		DB::hdel('questions',$id.'.so');
+		DB::hdel('questions',$id.'.ci');
+		DB::hdel('questions',$id.'.co');
+		$logs   = DB::hscan('logs','*.question');
+		$count  = count($logs);
+		$keys   = array_keys($logs);
+		for($i  = 0;$i < $count;$i++){
+			$key= $keys[$i];
+			$val= $logs[$key];
+			if($val == $id){
+				preg_match_all('/(.+)\.question/',$val,$logId);
+				$logId  = $logId[1][0];
+				DB::hdel('logs',[
+				              $logId.'.time',
+				              $logId.'.question',
+				              $logId.'.user',
+				              $logId.'.tof',
+				              $logId.'.lang',
+				              '#'.$logId.'.code'
+				]);
+			}
+		}
 	}
 }
