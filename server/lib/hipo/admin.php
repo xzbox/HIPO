@@ -28,10 +28,54 @@ class admin{
 		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
 			DB::INCR('contestId');
 			$id = DB::GET('contestId');
-			DB::hset('contests','name',$values['name']);
-			DB::hset('contests','level',$values['level']);
-			DB::hset('contests','start',$values['start']);
-			DB::hset('contests','end',$values['start'] + $values['time']);
+			DB::hset('contests',$id.'.name',$values['name']);
+			DB::hset('contests',$id.'.level',$values['level']);
+			DB::hset('contests',$id.'.start',$values['start']);
+			DB::hset('contests',$id.'.end',$values['start'] + $values['time']);
+			return true;
+		}
+		return false;
+	}
+	public static function editContest($id,$values){
+		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
+			DB::hset('contests',$id.'.name',$values['name']);
+			DB::hset('contests',$id.'.level',$values['level']);
+			DB::hset('contests',$id.'.start',$values['start']);
+			DB::hset('contests',$id.'.end',$values['start'] + $values['time']);
+			return true;
+		}
+		return false;
+	}
+
+	public static function createQuestion($values){
+		if(isset($values['name']) && isset($values['level']) && isset($values['contest']) && isset($values['si']) &&
+			isset($values['so']) && isset($values['ci']) && isset($values['co'])){
+
+			DB::INCR('questionId');
+			$id = DB::GET('questionId');
+			DB::hset('questions',$id.'.name',$values['name']);
+			DB::hset('questions',$id.'.level',$values['level']);
+			DB::hset('questions',$id.'.contest',$values['contest']);
+			DB::hset('questions',$id.'.si',$values['si']);
+			DB::hset('questions',$id.'.so',$values['so']);
+			DB::hset('questions',$id.'.ci',$values['ci']);
+			DB::hset('questions',$id.'.co',$values['co']);
+			return true;
+		}
+		return false;
+	}
+
+	public static function editQuestion($id,$values){
+		if(isset($values['name']) && isset($values['level']) && isset($values['contest']) && isset($values['si']) &&
+				isset($values['so']) && isset($values['ci']) && isset($values['co'])){
+
+			DB::hset('questions',$id.'.name',$values['name']);
+			DB::hset('questions',$id.'.level',$values['level']);
+			DB::hset('questions',$id.'.contest',$values['contest']);
+			DB::hset('questions',$id.'.si',$values['si']);
+			DB::hset('questions',$id.'.so',$values['so']);
+			DB::hset('questions',$id.'.ci',$values['ci']);
+			DB::hset('questions',$id.'.co',$values['co']);
 			return true;
 		}
 		return false;
