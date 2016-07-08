@@ -347,42 +347,6 @@ abstract class WebSocketServer {
     return true; // Override and return false if the origin is not one that you would expect.
   }
 
-  /**
-   * @param $ip
-   *
-   * @return bool
-   */
-  protected function checkIP($ip){
-    return !isset($this->blockedIP[$ip]);
-  }
-
-  /**
-   * @param $ip
-   *
-   * @return void
-   */
-  protected function blockIP($ip){
-    $this->blockedIP[$ip] = true;
-  }
-
-  /**
-   * @param $user
-   *
-   * @return void
-   */
-  protected function blockUser($user){
-    $this->blockIP($this->getUserIP($user)['address']);
-  }
-
-  /**
-   * @param $ip
-   *
-   * @return void
-   */
-  protected function unblockIP($ip){
-    unset($this->blockedIP[$ip]);
-  }
-
 	/**
 	 * @param $protocol
 	 *
@@ -456,19 +420,6 @@ abstract class WebSocketServer {
     if ($this->interactive) {
       echo "$message\n";
     }
-  }
-
-  /**
-   * @param $user
-   *
-   * @return string
-   */
-  public function getUserIP($user){
-    socket_getpeername($user->socket,$address,$port);
-    return [
-      'address' =>$address,
-      'port'    =>$port
-    ];
   }
 
 	/**
@@ -828,5 +779,75 @@ abstract class WebSocketServer {
 
     }
     echo ")\n";
+  }
+
+  /**
+   * @param $user
+   *
+   * @return array
+   */
+  protected function getUserIP($user){
+    socket_getpeername($user->socket,$address,$port);
+    return [
+        'address' =>$address,
+        'port'    =>$port
+    ];
+  }
+
+  /**
+   * @param $ip
+   *
+   * @return bool
+   */
+  protected function checkIP($ip){
+    if(isset($this->blockedIP[$ip])){
+      if(time() >= $this->blockedIP[$ip]){
+        $this->unblockIP($ip);
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @param     $ip
+   * @param int $expire
+   *
+   * @return void
+   */
+  protected function blockIP($ip,$expire = 1800){
+    $this->blockedIP[$ip] = time()+$expire;//Unblock user automatically after 30 minutes (1800s)
+    /**
+     * Close all of connections with specific ip
+     */
+    $count  = count($this->users);
+    $keys   = array_keys($this->users);
+    for($i  = 0;$i < $count;$i++){
+      if($this->getUserIP($this->users[$keys[$i]])['address'] == $ip){
+        socket_close($this->users[$keys[$i]]);
+      }
+    }
+  }
+
+  /**
+   * @param     $user
+   * @param int $expire
+   *
+   * @return void
+   */
+  protected function blockUser($user,$expire = 1800){
+    $ip = $this->getUserIP($user)['address'];
+    $this->blockedIP[$ip] = time()+$expire;//Unblock user automatically after 30 minutes (1800s)
+    socket_close($user);
+  }
+
+  /**
+   * @param $ip
+   *
+   * @return void
+   */
+  protected function unblockIP($ip){
+    unset($this->blockedIP[$ip]);
   }
 }
