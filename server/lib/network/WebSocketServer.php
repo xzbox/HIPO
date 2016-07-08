@@ -816,7 +816,7 @@ abstract class WebSocketServer {
    *
    * @return void
    */
-  protected function blockIP($ip,$expire = 1800){
+  public function blockIP($ip,$expire = 1800){
     $this->blockedIP[$ip] = time()+$expire;//Unblock user automatically after 30 minutes (1800s)
     /**
      * Close all of connections with specific ip
@@ -836,7 +836,7 @@ abstract class WebSocketServer {
    *
    * @return void
    */
-  protected function blockUser($user,$expire = 1800){
+  public function blockUser($user,$expire = 1800){
     $ip = $this->getUserIP($user)['address'];
     $this->blockedIP[$ip] = time()+$expire;//Unblock user automatically after 30 minutes (1800s)
     socket_close($user);
@@ -847,7 +847,7 @@ abstract class WebSocketServer {
    *
    * @return void
    */
-  protected function unblockIP($ip){
+  public function unblockIP($ip){
     unset($this->blockedIP[$ip]);
   }
 }
