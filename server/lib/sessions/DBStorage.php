@@ -34,7 +34,7 @@ class DBStorage{
 	 * @return array|bool|int|string
 	 */
 	public static function set($sessionId,$key,$value){
-		return DB::SET('#s.'.$sessionId.'.'.$key,serialize($value));
+		return DB::HSET('sessions',$sessionId.'.'.$key,serialize($value));
 	}
 
 	/**
@@ -58,7 +58,7 @@ class DBStorage{
 	 * @return mixed
 	 */
 	public static function get($sessionId,$key){
-		$re     = DB::GET('#s.'.$sessionId.'.'.$key);
+		$re     = DB::HGET('sessions',$sessionId.'.'.$key);
 		if($re !== false){
 			return unserialize($re);
 		}
@@ -71,6 +71,6 @@ class DBStorage{
 	 * @return array|bool|int|string
 	 */
 	public static function del($sessionId,$key){
-		return DB::DEL('#s.'.$sessionId.'.'.$key);
+		return DB::HDEL('sessions',$sessionId.'.'.$key);
 	}
 }
