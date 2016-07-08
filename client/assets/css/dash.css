@@ -25,13 +25,24 @@
     float: none;
 }
 #app{
-    margin-top: 45px;
+    margin-top: 50px;
 }
 #status{
     position: fixed;
     bottom:0;
     left: 0;
+    direction: ltr;
+    background-color: #e5e5e5;
 }
 .center-block{
     float: none;
+}
+.percent{
+    position: fixed;
+    left: 0;
+    width: 0;
+    top: 45px;
+    height:5px;
+    padding: 0;
+    background-image: linear-gradient(90deg,#fff, #d9534f);
 }
