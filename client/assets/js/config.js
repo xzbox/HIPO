@@ -24,3 +24,9 @@ var host    = "192.168.1.2",
     rsa_ed,//rsa_ed is both e and d it uses as e(public) in decrypting and uses as d(private) in encrypting
     debug   = false,
     reconnect_after = 5;
+if(localStorage.getItem('config.host') !== undefined){
+   host = localStorage.getItem('config.host');
+}
+if(localStorage.getItem('config.port') !== undefined){
+   port = localStorage.getItem('config.port');
+}
