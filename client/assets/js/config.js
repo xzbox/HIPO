@@ -22,4 +22,5 @@ var host    = "192.168.1.2",
     appName = 'HIPO',
     rsa_n,//use in both of decrypting and encrypting as n(public)
     rsa_ed,//rsa_ed is both e and d it uses as e(public) in decrypting and uses as d(private) in encrypting
-    debug   = false;
+    debug   = false,
+    reconnect_after = 5;
