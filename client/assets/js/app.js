@@ -201,11 +201,14 @@ function ws_connect(){
     ws.onclose  = function(){
         api.status('Connection closed!',1000);
         reconnect_time += reconnect_after;
+        if(reconnect_time / reconnect_after == 4){
+            alert("Something is wrong!\nCheck your network connection.");
+        }
         _time = reconnect_time;
         var timerId = setInterval(function(){
             if(_time > -1){
                 api.status('Reconnecting in '+_time+'s <a href="javascript:api.tryNow();">Try now...</a>');
-                percent.set((reconnect_time - _time) / reconnect_time);
+                percent.set((reconnect_time - _time - 1) / reconnect_time);
                 _time--;
             }
             if(_time == -1){
