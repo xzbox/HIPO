@@ -21,6 +21,7 @@
 namespace lib\hipo;
 use lib\client\js;
 use lib\database\DB;
+use lib\network\Socket;
 use lib\network\WebSocketUser;
 use lib\sessions\DBStorage;
 
@@ -33,9 +34,7 @@ class user{
 	public static function maybeWantsToHack($user){
 		DBStorage::incr($user->sessionId,'wantsToHack');
 		if(DBStorage::get($user->sessionId,'wantsToHack') > 10){
-			/**
-			 * TODO:Block user's access to the site
-			 */
+			Socket::$socket->blockUser($user,300);//Block user for 5 min
 		}
 	}
 
@@ -47,8 +46,9 @@ class user{
 	 * @return bool
 	 */
 	public static function login($user,$username,$password){
-		if(DBStorage::get($user->sessionId,'wrong_pass') > 7){
-			//return false;
+		if(DBStorage::get($user->sessionId,'wrong_pass') > 10){
+			Socket::$socket->blockUser($user,600);//Block user for 10 min
+			DBStorage::set($user->sessionId,'wrong_pass',0);
 		}
 		if($username == admin_username){
 			if($password == admin_password){
@@ -66,7 +66,7 @@ class user{
 			js::doFunc($user,'wrong_login');
 			return false;
 		}
-		$user_pass  = DB::GET('#u.'.strtolower(trim($username)).'.pass');
+		$user_pass  = DB::HGET('users',strtolower(trim($username)).'.pass');
 		if($user_pass == sha1($password)){
 			DBStorage::set($user->sessionId,'login',1);
 			DBStorage::set($user->sessionId,'login_username',$username);
@@ -126,16 +126,16 @@ class user{
 	public static function signup($user,$username,$pass,$age,$email,$fname,$lname){
 		$username   = strtolower($username);
 		if(count(DB::KEYS('u.'.$username.'.*')) == 0 && $username != admin_username){
-			$p      = 'u.'.$username.'.';
-			DB::SET('#'.$p.'pass',sha1($pass));
-			DB::SET($p.'age',$age);
-			DB::SET('#'.$p.'email',$email);
+			$p      = $username.'.';
+			DB::HSET('users','#'.$p.'pass',sha1($pass));
+			DB::HSET('users',$p.'age',$age);
+			DB::HSET('users','#'.$p.'email',$email);
 			//Hash of email address for gravatar
-			DB::SET($p.'email',md5(strtolower(trim($email))));
-			DB::SET($p.'fname',$fname);
-			DB::SET($p.'lname',$lname);
-			DB::SET($p.'time',time());
-			DB::SET($p.'score',0);
+			DB::HSET('users',$p.'email',md5(strtolower(trim($email))));
+			DB::HSET('users',$p.'fname',$fname);
+			DB::HSET('users',$p.'lname',$lname);
+			DB::HSET('users',$p.'time',time());
+			DB::HSET('users',$p.'score',0);
 			user::login($user,$username,$pass);
 			return true;
 		}else{
