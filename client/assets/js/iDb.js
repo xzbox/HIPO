@@ -171,13 +171,3 @@ iDb.unset   = function(key){
 iDb.del     = function(key){
     iDb.unset(key);
 };
-/**
- * Remove templates from local storage
- */
-iDb.removeTemplate = function () {
-    var templates = iDb.keys('^template_page_pages.+');
-    for(var tem in templates){
-        iDb.unset(templates[tem]);
-    }
-    iDb.unset('templateHash');
-};
