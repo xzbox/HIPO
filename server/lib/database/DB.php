@@ -248,6 +248,14 @@ class DB{
 	 * @return mixed
 	 */
 	public static function hdel($hash,$field){
+		if(is_array($field)){
+			$count  = count($field);
+			$keys   = array_keys($field);
+			for($i  = 0;$i < $count;$i++){
+				self::hdel($hash,$field[$keys[$i]]);
+			}
+			return true;
+		}
 		if($field[0] == '#'){
 			unset(self::$a[$hash][$field]);
 		}else{
