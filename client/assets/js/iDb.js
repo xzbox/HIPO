@@ -171,3 +171,12 @@ iDb.unset   = function(key){
 iDb.del     = function(key){
     iDb.unset(key);
 };
+/**
+ * Remove languages when we want to change it
+ */
+iDb.removeLang      = function () {
+    var l   = iDb.keys('^lang.+');
+    for(var tem in l){
+        iDb.unset(l[tem]);
+    }
+};
