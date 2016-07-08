@@ -786,7 +786,7 @@ abstract class WebSocketServer {
    *
    * @return array
    */
-  protected function getUserIP($user){
+  public function getUserIP($user){
     socket_getpeername($user->socket,$address,$port);
     return [
         'address' =>$address,
