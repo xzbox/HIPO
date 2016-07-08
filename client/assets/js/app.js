@@ -207,7 +207,20 @@ function ws_connect(){
         _time = reconnect_time;
         var timerId = setInterval(function(){
             if(_time > -1){
-                api.status('Reconnecting in '+_time+'s <a href="javascript:api.tryNow();">Try now...</a>');
+                var s = _time;
+                var m = '';
+                if(_time >= 60){
+                    m   = Math.round((_time / 60)) + 'm ';
+                    s   = _time % 60;
+                    if(s == 0){
+                        s = '';
+                    }else{
+                        s = s+'s ';
+                    }
+                }else {
+                    s = s+'s ';
+                }
+                api.status('Reconnecting in '+m+s+'<a href="javascript:api.tryNow();">Try now...</a>');
                 percent.set((reconnect_time - _time - 1) / reconnect_time);
                 _time--;
             }
