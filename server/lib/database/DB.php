@@ -78,8 +78,8 @@ class DB{
 	 */
 	public static function load(){
 		self::loadHash('users');
-		self::loadHash('contests');
-		self::loadHash('questions');
+//		self::loadHash('contests');
+//		self::loadHash('questions');
 		self::loadHash('logs');
 		self::loadHash('sessions');
 	}
