@@ -1191,7 +1191,8 @@ class Credis_Client {
 	 * becomes
 	 *  array('zrangebyscore', '-inf', 123, 'limit', '0', '1')
 	 *
-	 * @param array $in
+	 * @param array $arguments
+	 * @param array $out
 	 * @return array
 	 */
 	private static function _flattenArguments(array $arguments, &$out = array())
