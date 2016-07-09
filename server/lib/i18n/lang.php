@@ -25,7 +25,14 @@ namespace lib\i18n;
  * @package lib\i18n
  */
 class lang{
+    /**
+     * @var array
+     */
     protected static $lang = array();
+
+    /**
+     * @return void
+     */
     public static function load(){
         $files = glob('lib/i18n/lang/*.php');
         $count = count($files);
