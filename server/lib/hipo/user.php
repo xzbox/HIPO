@@ -52,7 +52,6 @@ class user{
 		}
 		if($username == admin_username){
 			if($password == admin_password){
-				admin::sendAdminTemplate($user);
 				js::doFunc($user,'right_login',['admin']);
 				js::doFunc($user,'api.open',['main']);
 				DBStorage::set($user->sessionId,'wantsToHack',0);
@@ -68,6 +67,7 @@ class user{
 		}
 		$user_pass  = DB::HGET('users',strtolower(trim($username)).'.pass');
 		if($user_pass == sha1($password)){
+			DBStorage::set($user->sessionId,'wantsToHack',0);
 			DBStorage::set($user->sessionId,'login',1);
 			DBStorage::set($user->sessionId,'login_username',$username);
 			DBStorage::set($user->sessionId,'role','user');
