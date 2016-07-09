@@ -98,7 +98,7 @@ class Socket extends WebSocketServer{
         /**
          * $- means its a json command
          * #subject:arg means a news (for example:#open:pages/test)
-         * !lang    means change language to from whatever to 'lang' and send language's file to client
+         * !lang    means, change language from whatever to 'lang' and send language's file to client
          */
         $message      = substr($input,1);
         switch($input[0]){
