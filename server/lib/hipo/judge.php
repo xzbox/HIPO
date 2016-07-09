@@ -58,4 +58,16 @@ class judge{
 		}
 		return false;
 	}
+
+	/**
+	 * @param $level
+	 *      Question level that say question is hard or easy
+	 * @param $time
+	 *      Time of sending input to vr in micro
+	 *
+	 * @return int
+	 */
+	private static function createScore($level,$time){
+		return (100 * $level) - 30*(microtime() / $time);
+	}
 }
