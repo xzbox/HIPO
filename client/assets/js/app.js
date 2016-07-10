@@ -154,6 +154,9 @@ api.isConnected = function () {
 api.show404 = function(){
     api.requestPage('er404');
 };
+api.changeLang  = function(_lang){
+    api.send('!'+_lang);
+};
 window.onhashchange = function(){
     var _p = location.hash.substr(1);
     if(api.isConnected() && iDb.isset('role') && api.pageName !== _p){
@@ -195,8 +198,7 @@ function ws_connect(){
     //localStorage.clear();
     //localStorage.sessionId  = sessionId;
     location.hash           = '';
-
-    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId;
+    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId+"&lang=d"+iDb.get('lang');
     ws = new WebSocket(url);
     ws.onclose  = function(){
         api.status('Connection closed!',1000);
@@ -252,6 +254,9 @@ function ws_connect(){
                     break;
                 case 'i':
                     hipo.parse(body);
+                    break;
+                case 'r':
+                    iDb.removeLang();
                     break;
                 default:
                     /**
