@@ -77,6 +77,16 @@ class js{
         return '$'.$name.' = "'.strings::addslashes_dq($value).'";';
     }
 
+    /**
+     * Remove language strings from localStorage
+     * @param $user
+     *
+     * @return void
+     */
+    public static function removeLang($user){
+        sender::ByUser($user,'r');
+    }
+
 /*    public static function console(){
         $re = new \stdClass();
         $re->assert = function(){
