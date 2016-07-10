@@ -69,7 +69,7 @@ class Socket extends WebSocketServer{
             $user->isAdmin  = 1;
         }else{
             $user->sessionId = $get['sessionId'] == undefined ? sessions::create($user) : $get['sessionId'];
-            $user->lang      = default_lang;
+            $user->lang      = $get['lang'] == undefined ? default_lang : $get['lsng'];
             if($get['sessionId'] == undefined){
                 iDb::set($user,'sessionId',$user->sessionId);
             }elseif(!sessions::issetId($get['sessionId'])){
@@ -77,7 +77,7 @@ class Socket extends WebSocketServer{
                 iDb::set($user,'sessionId',$user->sessionId);
             }
             iDb::set_json($user,DB::GET_JSON());
-            iDb::set_json($user,lang::get($user->lang));
+            lang::sendLang($user);
             if(user::is_login($user)){
                 iDb::set($user,'current_username',user::username($user));
                 js::doFunc($user,'right_login',[user::role($user)]);
@@ -137,7 +137,9 @@ class Socket extends WebSocketServer{
                 }
                 break;
             case '!':
-                iDb::set_json($user,lang::get($message));
+                if($message !== $user->lang && lang::is_set($message)){
+                    lang::sendLang($user);
+                }
                 break;
             default:
 //                $this->send($user,'console.error("Error! Bad Command.");');
