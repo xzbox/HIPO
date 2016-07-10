@@ -20,6 +20,11 @@
  *****************************************************************************/
 namespace lib\i18n;
 
+use lib\client\iDb;
+use lib\client\js;
+use lib\client\sender;
+use lib\network\WebSocketUser;
+
 /**
  * Class lang
  * @package lib\i18n
@@ -56,5 +61,26 @@ class lang{
         }else{
             return false;
         }
+    }
+
+    /**
+     * Send language strings to client & remove old strings from localStorage
+     * @param WebSocketUser $user
+     *
+     * @return void
+     */
+    public static function sendLang($user){
+        js::removeLang($user);
+        iDb::set_json($user,self::get($user->lang));
+        iDb::set($user,'lang',$user->lang);
+    }
+
+    /**
+     * @param $lang
+     *
+     * @return bool
+     */
+    public static function is_set($lang){
+        return isset(self::$lang[$lang]);
     }
 }
