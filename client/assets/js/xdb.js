@@ -36,6 +36,34 @@ var xdb = (function(document,window){
         store.createIndex("wSends", "wSends", { unique: false });
         store.createIndex("bio", "bio", { unique: false });
         store.createIndex("username", "username", { unique: true });
+
+        store       = db.createObjectStore('contests',{keyPath: "id"});
+        store.createIndex("name", "name", { unique: true });
+        store.createIndex("level", "level", { unique: false });
+        store.createIndex("start", "start", { unique: false });
+        store.createIndex("end", "end", { unique: false });
+
+        store       = db.createObjectStore('questions',{keyPath: "id"});
+        store.createIndex("name", "name", { unique: false });
+        store.createIndex("level", "level", { unique: false });
+        store.createIndex("content", "content", { unique: false });
+        store.createIndex("si", "si", { unique: false });
+        store.createIndex("so", "so", { unique: false });
+        store.createIndex("contest", "contest", { unique: false });
+
+        store       = db.createObjectStore('log',{keyPath: "id"});
+        store.createIndex("time", "time", { unique: false });
+        store.createIndex("question", "question", { unique: false });
+        store.createIndex("user", "user", { unique: false });
+        store.createIndex("tof", "tof", { unique: false });
+        store.createIndex("lang", "lang", { unique: false });
+
+        store       = db.createObjectStore('messages',{keyPath: "id"});
+        store.createIndex("title", "title", { unique: false });
+        store.createIndex("tag", "tag", { unique: false });
+        store.createIndex("message", "message", { unique: false });
+        store.createIndex("contest", "contest", { unique: false });
+        store.createIndex("question", "question", { unique: false });
     };
     publicFunctions.set     = function(key,value){
 
