@@ -202,8 +202,9 @@ abstract class WebSocketServer {
 	 */
   protected function connect($socket) {
     $user = new $this->userClass(uniqid('u'), $socket);
-    $this->users[$user->id] = $user;
+    $this->users[$user->id]   = $user;
     $this->sockets[$user->id] = $socket;
+    $this->ip                 = $this->getUserIP($user);
     $this->connecting($user);
   }
 
