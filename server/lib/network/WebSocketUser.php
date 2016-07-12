@@ -13,6 +13,7 @@ class WebSocketUser {
   public $page;
   public $lastMsg;
   public $lang;
+  public $ip;
   public $information = array();
 
   public $handshake = false;
