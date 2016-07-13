@@ -17,12 +17,12 @@
  *                       Created by AliReza Ghadimi                          *
  *     <http://AliRezaGhadimi.ir>    LO-VE    <AliRezaGhadimy@Gmail.com>     *
  *****************************************************************************/
-var host    = "192.168.1.2",
+var host    = "127.0.0.1",
     port    = "8085",
     appName = 'HIPO',
     rsa_n,//use in both of decrypting and encrypting as n(public)
     rsa_ed,//rsa_ed is both e and d it uses as e(public) in decrypting and uses as d(private) in encrypting
-    debug   = false,
+    debug   = true,
     reconnect_after = 5;
 if(localStorage.getItem('config.host') !== null){
    host = localStorage.getItem('config.host');
