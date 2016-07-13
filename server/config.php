@@ -25,7 +25,7 @@ if(class_exists('\lib\network\Network')){
 	 * You can change it to your custom configure.
 	 */
 	//define('socket_addr',\lib\network\Network::ServerIPv4());
-	define('socket_addr','192.168.1.2');
+	define('socket_addr','127.0.0.1');
 }else{
 	/**
 	 * This is socket's port for times that system is not connected to any network and there is no IPV4.
