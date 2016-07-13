@@ -204,7 +204,7 @@ abstract class WebSocketServer {
     $user = new $this->userClass(uniqid('u'), $socket);
     $this->users[$user->id]   = $user;
     $this->sockets[$user->id] = $socket;
-    $this->ip                 = $this->getUserIP($user);
+    $user->ip                 = $this->getUserIP($user);
     $this->connecting($user);
   }
 
@@ -231,7 +231,9 @@ abstract class WebSocketServer {
 
       if ($triggerClosed) {
         $this->stdout("Client disconnected. ".$disconnectedUser->socket);
-        $this->closed($disconnectedUser);
+        if($disconnectedUser->handshake){
+          $this->closed($disconnectedUser);
+        }
         socket_close($disconnectedUser->socket);
       }
       else {
