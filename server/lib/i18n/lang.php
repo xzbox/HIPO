@@ -73,6 +73,7 @@ class lang{
         js::removeLang($user);
         iDb::set_json($user,self::get($user->lang));
         iDb::set($user,'lang',$user->lang);
+        sender::ByUser($user,'d');
     }
 
     /**
