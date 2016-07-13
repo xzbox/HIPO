@@ -69,7 +69,11 @@ class Socket extends WebSocketServer{
             $user->isAdmin  = 1;
         }else{
             $user->sessionId = $get['sessionId'] == undefined ? sessions::create($user) : $get['sessionId'];
-            $user->lang      = $get['lang'] == undefined ? default_lang : $get['lsng'];
+            if(lang::is_set($get['lang'])){
+                $user->lang     = $get['lang'];
+            }else{
+                $user->lang     = default_lang;
+            }
             if($get['sessionId'] == undefined){
                 iDb::set($user,'sessionId',$user->sessionId);
             }elseif(!sessions::issetId($get['sessionId'])){
