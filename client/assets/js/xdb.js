@@ -23,6 +23,7 @@ var xdb = (function(document,window){
     var dbName              = 'WebSocket_'+appName;
     var open                = indexDb.open(dbName,1);
     var db                  = null;
+    var nop                 = function(){};
     var usersTx,usersStore,usersIndex,
         contestsTx,contestsStore,contestsIndex,
         questionsTx,questionsStore,questionsIndex,
@@ -108,7 +109,10 @@ var xdb = (function(document,window){
         }
     };
     publicFunctions.users           = Object();
-    publicFunctions.users.new       = function(username,email,age,fname,lname,score,tSends,wSends,bio){
+    publicFunctions.users.new       = function(username,email,age,fname,lname,score,tSends,wSends,bio,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
         var event = usersStore.put({
             'username':username,
             'email':email,
@@ -120,37 +124,68 @@ var xdb = (function(document,window){
             'wSends':wSends,
             'bio':bio
         });
-        var re   = Object();
-        re.onEnd = function (func) {
-            event.onsuccess(func);
+        event.onsuccess = onsuccess;
+        return event;
+    };
+    publicFunctions.users.set       = function(username,key,value,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        var input   = {'username':username};
+        input[key]  = value;
+        var event   = usersStore.put(input);
+        event.onsuccess = onsuccess;
+        return event;
+    };
+    publicFunctions.users.get       = function(username,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        var get = usersIndex.get(username);
+        get.onsuccess   = function(){
+            onsuccess(get.result);
         };
-        return re;
+        return get;
     };
-    publicFunctions.users.set       = function(username,key,value){
-        var event = usersStore.put({
-            'username':username,
-            key:value
-        });
-        var re   = Object();
-        re.onEnd = function (func) {
-            event.onsuccess(func);
+    publicFunctions.users.getById   = function(id,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        var get = usersStore.get(id);
+        get.onsuccess   = function(){
+            onsuccess(get.result);
         };
-        return re;
+        return get;
     };
-    publicFunctions.users.get       = function(username){
-
+    publicFunctions.users.list      = function(onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        usersStore.openCursor().onsuccess = function(eve){
+            var cursor = eve.target.result;
+            var re = Object();
+            if(cursor){
+                re[cursor.key]  = cursor.value;
+            }else {
+                onsuccess(re);
+            }
+        };
     };
-    publicFunctions.users.getById   = function(id){
-
+    publicFunctions.users.del       = function(username,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        var del = usersIndex.delete(username);
+        del.onsuccess = onsuccess;
+        return del;
     };
-    publicFunctions.users.list      = function(){
-
-    };
-    publicFunctions.users.del       = function(usernaem){
-
-    };
-    publicFunctions.users.delById   = function(id){
-
+    publicFunctions.users.delById   = function(id,onsuccess){
+        if(onsuccess === undefined){
+            onsuccess = nop;
+        }
+        var del = usersStore.delete(id);
+        del.onsuccess = onsuccess;
+        return del;
     };
 
     publicFunctions.contests        = Object();
