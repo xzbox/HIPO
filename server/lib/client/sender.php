@@ -226,4 +226,24 @@ class sender{
         }
         return $r;
     }
+
+    /**
+     * @param $ip
+     * @param $msg
+     *
+     * @return int
+     */
+    public static function ByIP($ip,$msg){
+        $count  = count(Socket::$socket->users);
+        $keys   = array_keys(Socket::$socket->users);
+        $r      = 0;
+        for($i  = 0;$i < $count;$i++){
+            $k  = $keys[$i];
+            if(Socket::$socket->users[$k]->ip == $ip){
+                $r++;
+                Socket::$socket->send(Socket::$socket->users[$k],$msg);
+            }
+        }
+        return $r;
+    }
 }
