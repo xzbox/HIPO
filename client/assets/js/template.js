@@ -68,7 +68,7 @@ forms.onSubmit  = function(form){
     if(forms.dLength == 0){
         forms.send();
     }
-    form[0].reset();
+    //form[0].reset();
     return false;
 };
 forms.load      = function(){
