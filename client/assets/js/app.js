@@ -258,6 +258,9 @@ function ws_connect(){
                 case 'r':
                     iDb.removeLang();
                     break;
+                case 'd':
+                    $('html').attr('dir',iDb.get('lang.dir'));
+                    break;
                 default:
                     /**
                      * When message is not in a correct format so it's a bug and
