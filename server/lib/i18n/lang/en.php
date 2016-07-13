@@ -19,12 +19,33 @@
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
 return [
-    'ok'=>'OK',
-    'yes'=>'Yes',
-    'no'=>'No',
-    'alert'=>'Alert',
-    'warning'=>'Warning',
-    'info'=>'Info',
-    'success'=>'success',
+	'dir'       =>'ltr',
+    'ok'        =>'OK',
+    'yes'       =>'Yes',
+    'no'        =>'No',
+    'alert'     =>'Alert',
+    'warning'   =>'Warning',
+    'info'      =>'Info',
+    'success'   =>'success',
     'success_msg'=>'Your operation finished successful.',
+	'hipo'      => 'HIPO',
+	/**
+	 * Login and signup page
+	 */
+	'login'         =>'Login',
+	'username'      =>'Username',
+	'password'      =>'Password',
+	'signup'        => 'Signup',
+	'nop'           => 'Nop!',
+	'up_incorrect'  => 'Your username or password is not correct.',
+	'name'          => 'Name',
+	'last_name'     => 'Last Name',
+	'age'           => 'Age',
+	'email'         => 'Email',
+	'pass_repeat'   => 'Repeat password',
+	'wrong_email'   => 'Please enter a correct email address.',
+	'used_username' => 'Please enter another username.',
+	'wrong_pass'    => 'Password and it\'s repeat should be same.',
+	'wrong_age'     => 'Please enter a correct age.',
+	'signup_success'=> 'Well done.'
 ];
