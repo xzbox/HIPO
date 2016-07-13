@@ -88,4 +88,13 @@ class validation{
     public static function validate_IP($IP){
         return self::validate(self::IPV4,$IP);
     }
+
+    /**
+     * @param $number
+     *
+     * @return array|bool
+     */
+    public static function validate_number($number){
+        return self::validate('/^[0-9]+$/',$number);
+    }
 }
