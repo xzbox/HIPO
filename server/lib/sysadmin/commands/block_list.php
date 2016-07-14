@@ -18,70 +18,29 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
-namespace lib\i18n;
+namespace lib\sysadmin\commands;
 
-use lib\client\iDb;
-use lib\client\js;
-use lib\client\sender;
+use lib\helper\validation;
+use lib\network\Socket;
 use lib\network\WebSocketUser;
 
 /**
- * Class lang
- * @package lib\i18n
+ * Class block_list
+ * @package lib\sysadmin\commands
  */
-class lang{
-    /**
-     * @var array
-     */
-    protected static $lang = array();
+class block_list{
+	/**
+	 * @var bool
+	 */
+	public static $needLogin    = true;
 
-    /**
-     * @return void
-     */
-    public static function load(){
-        $files = glob('lib/i18n/lang/*.php');
-        $count = count($files);
-        for($i = 0;$i < $count;$i++){
-            $code = substr(basename($files[$i]),0,-4);
-            self::$lang[$code] = json_encode(['lang'=>include($files[$i])]);
-        }
-    }
-
-    /**
-     * @param string $code
-     *
-     * @return bool
-     */
-    public static function get($code = default_lang){
-        if(self::$lang == array()){
-            self::load();
-        }
-        if(isset(self::$lang[$code])){
-            return self::$lang[$code];
-        }else{
-            return false;
-        }
-    }
-
-    /**
-     * Send language strings to client & remove old strings from localStorage
-     * @param WebSocketUser $user
-     *
-     * @return void
-     */
-    public static function sendLang($user){
-        js::removeLang($user);
-        iDb::set_json($user,self::get($user->lang));
-        iDb::set($user,'lang',$user->lang);
-        sender::ByUser($user,'d');
-    }
-
-    /**
-     * @param $lang
-     *
-     * @return bool
-     */
-    public static function is_set($lang){
-        return isset(self::$lang[$lang]);
-    }
+	/**
+	 * @param $param
+	 * @param WebSocketUser $user
+	 *
+	 * @return string
+	 */
+	public static function process($param,$user){
+		return implode("\n",array_keys(Socket::$socket->getBlockedIP()));
+	}
 }
