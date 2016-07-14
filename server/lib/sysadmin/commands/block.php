@@ -44,11 +44,15 @@ class block{
 		if(count($param) !== 2){
 			return 'Bad number of arguments!';
 		}
+		if(!validation::validate_number($param[1])){
+			return 'Second parameter should be number.';
+		}
+		$expire = intval($param[1]);
 		$ips    = explode("\n",$param[0]);
 		$count  = count($ips);
 		for($i  = 0;$i < $count;$i++){
 			if(validation::validate_IP($ips[$i])){
-				Socket::$socket->blockIP($ips[$i],validation::validate_number($param[1]));
+				Socket::$socket->blockIP($ips[$i],$expire);
 			}
 		}
 		return 'OK!';
