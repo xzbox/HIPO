@@ -23,10 +23,14 @@ var host    = "127.0.0.1",
     rsa_n,//use in both of decrypting and encrypting as n(public)
     rsa_ed,//rsa_ed is both e and d it uses as e(public) in decrypting and uses as d(private) in encrypting
     debug   = true,
-    reconnect_after = 5;
+    reconnect_after = 5,
+    default_lang    = 'en';
 if(localStorage.getItem('config.host') !== null){
    host = localStorage.getItem('config.host');
 }
 if(localStorage.getItem('config.port') !== null){
    port = localStorage.getItem('config.port');
+}
+if(localStorage.getItem('config.lang') !== null){
+   default_lang   = localStorage.getItem('config.lang');
 }
