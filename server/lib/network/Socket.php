@@ -22,11 +22,11 @@ namespace lib\network;
 use lib\client\iDb;
 use lib\client\iDbToAll;
 use lib\client\js;
+use lib\client\sender;
 use lib\database\DB;
 use lib\helper\console;
 use lib\hipo\admin;
 use lib\hipo\user;
-use lib\i18n\lang;
 use lib\sessions\DBStorage;
 use lib\sessions\sessions;
 use lib\sysadmin\sys;
@@ -69,11 +69,6 @@ class Socket extends WebSocketServer{
             $user->isAdmin  = 1;
         }else{
             $user->sessionId = $get['sessionId'] == undefined ? sessions::create($user) : $get['sessionId'];
-            if(lang::is_set($get['lang'])){
-                $user->lang     = $get['lang'];
-            }else{
-                $user->lang     = default_lang;
-            }
             if($get['sessionId'] == undefined){
                 iDb::set($user,'sessionId',$user->sessionId);
             }elseif(!sessions::issetId($get['sessionId'])){
@@ -81,7 +76,6 @@ class Socket extends WebSocketServer{
                 iDb::set($user,'sessionId',$user->sessionId);
             }
             iDb::set_json($user,DB::GET_JSON());
-            lang::sendLang($user);
             if(user::is_login($user)){
                 iDb::set($user,'current_username',user::username($user));
                 js::doFunc($user,'right_login',[user::role($user)]);
@@ -102,7 +96,6 @@ class Socket extends WebSocketServer{
         /**
          * $- means its a json command
          * #subject:arg means a news (for example:#open:pages/test)
-         * !lang    means, change language from whatever to 'lang' and send language's file to client
          */
         $message      = substr($input,1);
         switch($input[0]){
@@ -138,11 +131,6 @@ class Socket extends WebSocketServer{
                             $class::closed($user);
                         }
                         break;
-                }
-                break;
-            case '!':
-                if($message !== $user->lang && lang::is_set($message)){
-                    lang::sendLang($user);
                 }
                 break;
             default:
