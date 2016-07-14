@@ -80,6 +80,9 @@ forms.load      = function(){
     });
 };
 var template    = Object();
+Vue.filter('lang',function(value){
+    return lng(value);
+});
 template.vue= new Vue({
     el: '#app',
     replace: false,
