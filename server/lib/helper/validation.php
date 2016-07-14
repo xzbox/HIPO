@@ -37,7 +37,7 @@ class validation{
      * Simple IPV4 validation regex
      * @author Qti3e
      */
-    const IPV4  = '/[1-9]{3}\.[1-9].{3}\.[1-9]{3}\.[1-9]{1,3}/';
+    const IPV4  = '/^[1-9]{3}\.[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}$/';
 
     /**
      * @param $patten
@@ -51,23 +51,20 @@ class validation{
             $key   = array_keys($value);
             $return= array();
             for($i = 0;$i < $count;$i++){
-                if(is_array($value[$i])){
-                    if(count($re = self::validate($patten,$value[$i])) > 0){
+                if(is_array($value[$key[$i]])){
+                    if(count($re = self::validate($patten,$value[$key[$i]])) > 0){
                         $return[$key[$i]] = $re;
                     }
                 }else{
-                    if(preg_match($patten,$value[$i])){
-                        $return[$key[$i]] = $value[$i];
+                    echo $value[$key[$i]];
+                    if(self::validate($patten,$value[$key[$i]])){
+                        $return[$key[$i]] = $value[$key[$i]];
                     }
                 }
             }
             return $return;
         }else{
-            if(preg_match($patten,$value)){
-                return true;
-            }else{
-                return false;
-            }
+            return (bool)preg_match($patten,$value);
         }
     }
 
@@ -96,5 +93,43 @@ class validation{
      */
     public static function validate_number($number){
         return self::validate('/^[0-9]+$/',$number);
+    }
+
+    /**
+     * @param $username
+     *
+     * @return array|bool
+     */
+    public static function validate_username($username){
+        return self::validate('/^[a-zA-Z][a-zA-Z0-9]{4,9}$/',$username);
+    }
+
+    /**
+     * @param $password
+     *
+     * @return array|bool
+     */
+    public static function validate_password($password){
+        $len = strlen($password);
+        return ($len > 4) && ($len < 17);
+    }
+
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public static function  validate_name($name){
+        $len = strlen($name);
+        return ($len > 2) && ($len < 20);
+    }
+
+    /**
+     * @param $dir
+     *
+     * @return array|bool
+     */
+    public static function validate_dir($dir){
+        return self::validate('/^\/*([^\/:\*?"<>|\n\t\r]+\/)+[^\/:\*?"<>|\n\t\r]*$/',$dir);
     }
 }
