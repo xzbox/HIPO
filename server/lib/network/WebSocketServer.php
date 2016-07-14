@@ -147,7 +147,7 @@ abstract class WebSocketServer {
           }
         } 
         else {
-          $numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0); 
+          $numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0);
           if ($numBytes === false) {
             $sockErrNo = socket_last_error($socket);
             switch ($sockErrNo)
@@ -852,5 +852,12 @@ abstract class WebSocketServer {
    */
   public function unblockIP($ip){
     unset($this->blockedIP[$ip]);
+  }
+
+  /**
+   * @return array
+   */
+  public function getBlockedIP() {
+    return $this->blockedIP;
   }
 }
