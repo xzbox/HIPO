@@ -18,34 +18,30 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
-return [
-	'dir'       =>'ltr',
-    'ok'        =>'OK',
-    'yes'       =>'Yes',
-    'no'        =>'No',
-    'alert'     =>'Alert',
-    'warning'   =>'Warning',
-    'info'      =>'Info',
-    'success'   =>'success',
-    'success_msg'=>'Your operation finished successful.',
-	'hipo'      => 'HIPO',
+namespace lib\sysadmin\commands;
+
+use lib\helper\validation;
+use lib\network\Socket;
+use lib\network\WebSocketUser;
+
+/**
+ * Class ipconfig
+ * @package lib\sysadmin\commands
+ */
+class ipconfig{
 	/**
-	 * Login and signup page
+	 * @var bool
 	 */
-	'login'         =>'Login',
-	'username'      =>'Username',
-	'password'      =>'Password',
-	'signup'        => 'Signup',
-	'nop'           => 'Nop!',
-	'up_incorrect'  => 'Your username or password is not correct.',
-	'name'          => 'Name',
-	'last_name'     => 'Last Name',
-	'age'           => 'Age',
-	'email'         => 'Email',
-	'pass_repeat'   => 'Repeat password',
-	'wrong_email'   => 'Please enter a correct email address.',
-	'used_username' => 'Please enter another username.',
-	'wrong_pass'    => 'Password and it\'s repeat should be same.',
-	'wrong_age'     => 'Please enter a correct age.',
-	'signup_success'=> 'Well done.'
-];
+	public static $needLogin    = true;
+
+	/**
+	 * @param $param
+	 * @param WebSocketUser $user
+	 *
+	 * @return string
+	 */
+	public static function process($param,$user){
+		exec('ipconfig',$re);
+		return implode("\n",$re);
+	}
+}
