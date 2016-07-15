@@ -1,36 +1,36 @@
 <div class="row mt">
     <div class="col-lg-5 center-block">
         <div class="form-panel">
-            <h4 class="mb">{{'login' | lang}}<i class="fa {{{(lang.dir == 'rtl') ? 'fa-angle-left' : 'fa-angle-right'}}}"></i></h4>
+            <h4 class="mb">{{'login' | lng}}<i class="fa {{{(lng('dir') == 'rtl') ? 'fa-angle-left' : 'fa-angle-right'}}}"></i></h4>
             <form class="form-horizontal style-form" data-name="login">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.username}}:</label>
+                    <label class="col-sm-2 control-label">{{'username' | lng}}:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="{{lang.username}}..." name="username">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{{'username' | lng}}..." name="username">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.password}}:</label>
+                    <label class="col-sm-2 control-label">{{'password' | lng}}:</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" autocomplete="off" placeholder="{{lang.password}}..." name="password">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{{'password' | lng}}..." name="password">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6" style="float: right">
-                        <button class="btn btn-danger center-block" style="width: 100%" type="submit">{{lang.login | lowercase}}</button>
+                        <button class="btn btn-danger center-block" style="width: 100%" type="submit">{{'login' | lng | lowercase}}</button>
                     </div>
                     <div class="col-sm-6" style="float: right;">
-                        <a href="#signup" class="btn btn-info center-block">{{lang.signup | lowercase}}</a>
+                        <a href="#signup" class="btn btn-info center-block">{{'signup' | lng | lowercase}}</a>
                     </div>
                 </div>
                 <div class="alert alert-danger" v-if="wrong_login">
-                    <b>{{lang.nop}}</b>
-                    {{lang.up_incorrect}}
+                    <b>{{'nop' | lng}}</b>
+                    {{'up_incorrect' | lng}}
                 </div>
             </form>
         </div>
     </div><!-- col-lg-12-->
 </div>
 <script type="application/javascript">
-    api.ChangeTitle(iDb.get('lang.hipo') + ' | ' + iDb.get('lang.login'));
+    api.i18nTitle('login');
 </script>
