@@ -33,7 +33,7 @@ class iDb{
 	 * @return int
 	 */
 	public static function set($user,$key,$value){
-		return sender::ByUser($user,'i1'.json_encode(['key'=>$key,'val'=>$value]));
+		return sender::ByUser($user,'1'.json_encode([$key,$value]));
 	}
 
 	/**
@@ -43,7 +43,7 @@ class iDb{
 	 * @return int
 	 */
 	public static function incr($user,$key){
-		return sender::ByUser($user,'i2'.json_encode(['key'=>$key]));
+		return sender::ByUser($user,'3'.$key);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class iDb{
 	 * @return int
 	 */
 	public static function incrBy($user,$key,$value){
-		return sender::ByUser($user,'i3'.json_encode(['key'=>$key,'val'=>$value]));
+		return sender::ByUser($user,'4'.json_encode([$key,$value]));
 	}
 
 	/**
@@ -64,7 +64,7 @@ class iDb{
 	 * @return int
 	 */
 	public static function del($user,$key){
-		return sender::ByUser($user,'i4'.json_encode(['key'=>$key]));
+		return sender::ByUser($user,'2'.$key);
 	}
 
 	/**
@@ -74,6 +74,6 @@ class iDb{
 	 * @return int
 	 */
 	public static function set_json($user,$input){
-		return sender::ByUser($user,'i5'.$input);
+		return sender::ByUser($user,'5'.$input);
 	}
 }
