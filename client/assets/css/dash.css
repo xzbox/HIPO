@@ -48,3 +48,46 @@
     padding: 0;
     background-image: linear-gradient(90deg,#fff, #d9534f);
 }
+html[dir='ltr'] .align-right{
+    text-align: right;
+}
+html[dir='ltr'] .align-left{
+    text-align: left;
+}
+html[dir='rtl'] .align-right{
+    text-align: left;
+}
+html[dir='rtl'] .align-left{
+    text-align: right;
+}
+.align-center{
+    text-align: center;
+}
+
+html[dir='ltr'] .float-right{
+    float: right;
+}
+html[dir='ltr'] .float-left{
+    float: left;
+}
+html[dir='rtl'] .float-right{
+    float: left;
+}
+html[dir='rtl'] .float-left{
+    float: right;
+}
+.float-center{
+    float: none;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+body{
+    background-image: url('../img/bg.png');
+}
+.form-panel{
+    background-color: #f8f8f8;
+    border: 5px solid #79ccc7;
+    border-radius: 13px;
+    padding: 7px;
+}
