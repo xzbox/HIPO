@@ -18,10 +18,10 @@
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
 var sidebar = new Vue({el:"#header",replace:false,data:{
-    name:"مهمان",
+    name:lng('guest'),
     page_name:"main",
     role:'',
-    head_btn:'ورود',
+    head_btn:lng('login'),
     head_btn_href:'#login'
 }});
 function createMenu(obj){
@@ -65,7 +65,7 @@ function right_login(role){
     iDb.set('is_login',1);
     sidebar.$set('is_login',1);
     sidebar.$set('name',iDb.get('u.'+iDb.get('current_username')+'.fname'));
-    sidebar.$set('head_btn','خروج');
+    sidebar.$set('head_btn',lng('logout'));
     sidebar.$set('head_btn_logout','#logout');
 }
 function signup_wrong_email(){
@@ -126,37 +126,8 @@ var hipo    = Object();
 logout = function(){
     iDb.set('is_login',0);
     sidebar.$set('is_login',0);
-    sidebar.$set('head_btn','ورود');
+    sidebar.$set('head_btn',lng('login'));
     sidebar.$set('head_btn_logout','#login');
-    sidebar.$set('name','مهمان');
+    sidebar.$set('name',lng('guest'));
     sidebar.$set('role','guest');
-};
-hipo.parse  = function(input){
-    var code= input.substr(0,1);
-    var body= JSON.parse(input.substr(1));
-    switch (code){
-        case '1':
-            iDb.set(body.key,body.val);
-            break;
-        case '2':
-            iDb.incr(body.key);
-            break;
-        case '3':
-            iDb.incrby(body.key,body.val);
-            break;
-        case '4':
-            iDb.unset(body.key);
-            break;
-        case '5':
-            iDb.set_object(body);
-            break;
-        default:
-            /**
-             * When input is not in a correct format it must be a bug!
-             * Here we log it into the console for find them and after that we
-             *  will debug it.
-             */
-            console.log(input + ' (hex) '+ helper.str2hex(input));
-            break;
-    }
 };
