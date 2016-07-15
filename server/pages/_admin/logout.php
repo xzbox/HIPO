@@ -18,7 +18,7 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
-namespace pages\admin;
+namespace pages\_admin;
 use lib\client\js;
 use lib\hipo\user;
 use lib\view\view;
