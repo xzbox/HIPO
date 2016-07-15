@@ -70,10 +70,10 @@ class Socket extends WebSocketServer{
         }else{
             $user->sessionId = $get['sessionId'] == undefined ? sessions::create($user) : $get['sessionId'];
             if($get['sessionId'] == undefined){
-                iDb::set($user,'sessionId',$user->sessionId);
+                $this->send($user,'6'.$user->sessionId);
             }elseif(!sessions::issetId($get['sessionId'])){
                 $user->sessionId = sessions::create($user);
-                iDb::set($user,'sessionId',$user->sessionId);
+                $this->send($user,'6'.$user->sessionId);
             }
             iDb::set_json($user,DB::GET_JSON());
             if(user::is_login($user)){
