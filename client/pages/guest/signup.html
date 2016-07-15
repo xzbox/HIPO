@@ -1,77 +1,77 @@
 <div class="row mt">
     <div class="col-lg-5 center-block">
         <div class="form-panel">
-            <h4 class="mb">{{lang.signup}}<i class="fa {{{(lang.dir == 'rtl') ? 'fa-angle-left' : 'fa-angle-right'}}}"></i></h4>
+            <h4 class="mb">{{'signup' | lng}}<i class="fa {{{(lang.dir == 'rtl') ? 'fa-angle-left' : 'fa-angle-right'}}}"></i></h4>
             <form class="form-horizontal style-form" data-name="signup">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.name}}:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="{{lang.name}}..." name="fname">
+                    <label class="col-sm-3 control-label">{{'name' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{{'name' | lng}}..." name="fname">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.last_name}}:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="{{lang.last_name}}" name="lname">
+                    <label class="col-sm-3 control-label">{{'last_name' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{{'last_name' | lng}}" name="lname">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.age}}:</label>
-                    <div class="col-sm-10">
-                        <input type="number" class="form-control" autocomplete="off" placeholder="{{lang.age}}..." name="age">
+                    <label class="col-sm-3 control-label">{{'age' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" autocomplete="off" placeholder="{{'age' | lng}}..." name="age">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.email}}...</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" autocomplete="off" placeholder="{{lang.email}}..." name="email">
+                    <label class="col-sm-3 control-label">{{'email' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" autocomplete="off" placeholder="{{'email' | lng}}..." name="email">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.username}}:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="{{lang.username}}..." name="username">
+                    <label class="col-sm-3 control-label">{{'username' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" autocomplete="off" placeholder="{{'username' | lng}}..." name="username">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.password}}:</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" autocomplete="off" placeholder="{{lang.password}}..." name="password">
+                    <label class="col-sm-3 control-label">{{'password' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{{'password' | lng}}..." name="password">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">{{lang.pass_repeat}}:</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" autocomplete="off" placeholder="{{lang.pass_repeat}}..." name="password_repeat">
+                    <label class="col-sm-3 control-label">{{'pass_repeat' | lng}}:</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" autocomplete="off" placeholder="{{'pass_repeat' | lng}}..." name="password_repeat">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-6" style="float: right">
-                        <button class="btn btn-info center-block" style="width: 100%" type="submit">{{lang.signup}}</button>
+                        <button class="btn btn-info center-block" style="width: 100%" type="submit">{{'signup' | lng}}</button>
                     </div>
                     <div class="col-sm-6" style="float: right;">
-                        <a href="#main" class="btn btn-danger center-block">{{lang.login}}</a>
+                        <a href="#main" class="btn btn-danger center-block">{{'login' | lng}}</a>
                     </div>
                 </div>
                 <div class="alert alert-danger" v-if="wrong_email">
-                    <b>{{lang.nop}}</b>
-                    {{lang.wrong_email}}
+                    <b>{{'nop' | lng}}</b>
+                    {{'wrong_email' | lng}}
                 </div>
                 <div class="alert alert-danger" v-if="used_username">
-                    <b>{{lang.nop}}</b>
-                    {{lang.used_username}}
+                    <b>{{'nop' | lng}}</b>
+                    {{'used_username' | lng}}
                 </div>
                 <div class="alert alert-danger" v-if="wrong_pass">
-                    <b>{{lang.nop}}</b>
-                    {{lang.wrong_pass}}
+                    <b>{{'nop' | lng}}</b>
+                    {{'wrong_pass' | lng}}
                 </div>
                 <div class="alert alert-danger" v-if="wrong_age">
-                    <b>{{lang.nop}}</b>
-                    {{lang.wrong_age}}
+                    <b>{{'nop' | lng}}</b>
+                    {{'wrong_age' | lng}}
                 </div>
                 <div class="alert alert-success" v-if="signup_success">
-                    <b>{{lang.yes}}!</b>
-                    {{lang.signup_success}}
+                    <b>{{'yes' | lng}}!</b>
+                    {{'signup_success' | lng}}
                 </div>
             </form>
         </div>
@@ -81,5 +81,5 @@
     if(iDb.get('is_login') == '1'){
         api.open('main');
     }
-    api.ChangeTitle(iDb.get('lang.hipo') + ' | ' + iDb.get('lang.signup'));
+    api.i18nTitle('signup');
 </script>
