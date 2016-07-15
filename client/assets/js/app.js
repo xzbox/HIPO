@@ -56,7 +56,14 @@ var api = Object();
  * @constructor
  */
 api.ChangeTitle = function(newTitle){
-    document.title = newTitle;
+    document.title  = newTitle;
+};
+/**
+ *
+ * @param code
+ */
+api.i18nTitle   = function(code){
+    document.title  = lng('hipo') + ' | ' + lng(code);
 };
 /**
  * This function has to set user's session id
@@ -198,7 +205,7 @@ function ws_connect(){
     //localStorage.clear();
     //localStorage.sessionId  = sessionId;
     location.hash           = '';
-    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId+"&lang=d"+iDb.get('lang');
+    var url = "ws://"+host+":"+port+"/sessionId="+localStorage.sessionId;
     ws = new WebSocket(url);
     ws.onclose  = function(){
         api.status('Connection closed!',1000);
@@ -237,6 +244,7 @@ function ws_connect(){
         ws  = null;
     };
     ws.onopen = function(){
+        iDb.reset();
         reconnect_time = 0;
         percent.set(100);
         api.status('CONNECTED!',1000);
@@ -252,14 +260,25 @@ function ws_connect(){
                 case '$':
                     eval(body);
                     break;
-                case 'i':
-                    hipo.parse(body);
+                case '1':
+                    body    = JSON.parse(body);
+                    iDb.set(body[0],body[1]);
                     break;
-                case 'r':
-                    iDb.removeLang();
+                case '2':
+                    iDb.del(body);
                     break;
-                case 'd':
-                    $('html').attr('dir',iDb.get('lang.dir'));
+                case '3':
+                    iDb.incr(body);
+                    break;
+                case '4':
+                    body    = JSON.parse(body);
+                    iDb.incrBy(body[0],body[1]);
+                    break;
+                case '5':
+                    iDb.set_json(body);
+                    break;
+                case '6':
+                    localStorage.setItem('sessionId',body);
                     break;
                 default:
                     /**
