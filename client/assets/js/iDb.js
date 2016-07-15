@@ -17,166 +17,173 @@
  *                             Created by  Qti3e                             *
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
-/**
- * iDb.js
- *  Very simple javascript library to work with localStorage as an indexedDB (key-value store)
- */
-var iDb = Object();
-/**
- *
- * @param filter
- * @param n
- * @param replace
- * @returns {Array}
- */
-iDb.keys = function (filter,n,replace){
-    if(n === undefined){
-        n = 0;
-    }
-    if(replace === undefined){
-        replace = true;
-    }
-    if(replace){
-        filter  = filter.replace('\\','\\\\');
-    }
-    var len     = localStorage.length;
-    var regex   = new RegExp('^'+filter+'$');
-    var re      = [];
-    var k       = 0;
-    var tmp     = '';
-    for(var i = 0;i < len;i++){
-        if(regex.test(localStorage.key(i))){
-            tmp     = regex.exec(localStorage.key(i));
-            re[k++] = tmp[n];
+var iDb    = (function(){
+    var iDb_DB  = Object();
+    var numberRegex = new RegExp('^[0-9]+$');
+    return {
+        /**
+         *
+         * @param filter
+         * @param n
+         * @param replace
+         * @returns {Array}
+         */
+        keys: function(filter,n,replace){
+            if(n === undefined){
+                n = 0;
+            }
+            if(replace === undefined){
+                replace = true;
+            }
+            if(replace){
+                filter  = filter.replace('\\','\\\\');
+            }
+            var len     = iDb_DB.length,
+                keys    = Object.keys(iDb_DB),
+                regex   = new RegExp('^'+filter+'$'),
+                re      = [],
+                k       = 0,
+                tmp     = '';
+            for(var i = 0;i < len;i++){
+                if(regex.test(iDb_DB[keys[i]])){
+                    tmp     = regex.exec(iDb_DB[keys[i]]);
+                    re[k++] = tmp[n];
+                }
+            }
+            return re;
+        },
+        /**
+         *
+         * @param key
+         * @returns {*}
+         */
+        get: function(key){
+            return iDb_DB[key];
+        },
+        /**
+         *
+         * @param key
+         * @param value
+         * @returns {*}
+         */
+        set: function(key,value){
+            if(numberRegex.test(value)){
+                value = parseInt(value);
+            }
+            template.set(key,value);
+            return iDb_DB[key]  = value;
+        },
+        /**
+         *
+         * @returns {*}
+         */
+        length: function(){
+            return iDb_DB.length;
+        },
+        /**
+         *
+         * @param key
+         * @returns {boolean}
+         */
+        isset: function(key){
+            return iDb_DB[key] !== undefined;
+        },
+        /**
+         *
+         * @param key
+         * @returns {number}
+         */
+        incr: function(key){
+            if(iDb_DB[key] === undefined || !numberRegex.test(iDb_DB[key])){
+                iDb_DB[key] = 1;
+                return 1;
+            }
+            return (++iDb_DB[key]);
+        },
+        /**
+         *
+         * @param key
+         * @param number
+         * @returns {*}
+         */
+        incrBy: function(key,number){
+            if(iDb_DB[key] === undefined || !numberRegex.test(iDb_DB[key])){
+                iDb_DB[key] = number;
+                return number;
+            }
+            iDb_DB[key] += number;
+            return iDb_DB[key];
+        },
+        /**
+         *
+         * @param obj
+         * @param prefix
+         */
+        set_object: function(obj,prefix){
+            if(prefix === undefined){
+                prefix = '';
+            }
+            for(var key in obj){
+                var val = obj[key];
+                if(typeof(val) == 'object'){
+                    iDb.set_object(val,prefix+key+'.');
+                }else {
+                    iDb.set(prefix+key,val);
+                }
+            }
+        },
+        /**
+         *
+         * @param json
+         */
+        set_json: function(json){
+            iDb.set_object(JSON.parse(json));
+        },
+        /**
+         *
+         * @param i
+         * @returns {*}
+         */
+        key: function(i){
+            var keys = Object.keys(iDb_DB);
+            return keys[i];
+        },
+        /**
+         *
+         * @returns {*}
+         */
+        array: function(){
+            return iDb_DB;
+        },
+        /**
+         * Send fields to vue.js (template library)
+         */
+        vue: function(){
+            var keys = Object.keys(iDb_DB);
+            for(var key in keys){
+                template.set(key,iDb_DB[key]);
+            }
+        },
+        /**
+         * Remove special key
+         * @param key
+         */
+        unset: function(key){
+            delete iDb_DB[key];
+        },
+        /**
+         * Same as unset
+         * @see iDb.unset
+         * @param key
+         */
+        del: function(key){
+            delete iDb_DB[key];
+        },
+        /**
+         * Reset database
+         */
+        reset: function(){
+            iDb_DB  = Object();
         }
-    }
-    return re;
-};
-/**
- *
- * @param name
- */
-iDb.get = function (name){
-    return localStorage.getItem(name);
-};
-/**
- *
- * @param name
- * @param value
- */
-iDb.set = function (name,value){
-    if(iDb.numberRegex.test(value)){
-        value = parseInt(value);
-    }
-    template.set(name,value);
-    return localStorage.setItem(name,value);
-};
-/**
- *
- * @returns {number}
- */
-iDb.length = function(){
-    return localStorage.length;
-};
-iDb.isset   = function(name){
-    return iDb.keys(name).length !== 0;
-};
-/**
- *
- * @param name
- */
-iDb.incr = function(name){
-    if(!iDb.isset(name)){
-        iDb.set(name,0);
-    }
-    return iDb.set(name,parseInt(iDb.get(name))+1);
-};
-/**
- *
- * @param name
- * @param value
- */
-iDb.incrby = function(name,value){
-    if(!iDb.isset(name)){
-        iDb.set(name,0);
-    }
-    return iDb.set(name,parseInt(iDb.get(name))+value);
-};
-/**
- *
- * @param object
- * @param prefix
- */
-iDb.set_object = function(object,prefix){
-    if(prefix === undefined){
-        prefix = '';
-    }
-    for(var key in object){
-        var val = object[key];
-        if(typeof(val) == 'object'){
-            iDb.set_object(val,prefix+key+'.');
-        }else {
-            iDb.set(prefix+key,val);
-        }
-    }
-};
-/**
- *
- * @param json
- * @constructor
- */
-iDb.SET_JSON = function(json){
-    var object = JSON.parse(json);
-    iDb.set_object(object);
-};
-/**
- *
- * @param number
- * @returns {string}
- */
-iDb.key     = function(number){
-    return localStorage.key(number);
-};
-/**
- *
- * @returns {Storage}
- */
-iDb.array   = function(){
-    return localStorage;
-};
-iDb.numberRegex = new RegExp('^[0-9]+$');
-iDb.vue     = function(){
-    var keys = iDb.keys('.+');
-    var val;
-    for(var key in keys){
-        key = iDb.key(key);
-        val = iDb.get(key);
-        if(iDb.numberRegex.test(val)){
-            val = parseInt(val);
-        }
-        template.set(key,val);
-    }
-};
-/**
- * Remove special key from local storage
- * @param key
- */
-iDb.unset   = function(key){
-    localStorage.removeItem(key);
-};
-/**
- * Alias for iDb.unset
- * @type {iDb.unset|*}
- */
-iDb.del     = function(key){
-    iDb.unset(key);
-};
-/**
- * Remove languages when we want to change it
- */
-iDb.removeLang      = function () {
-    var l   = iDb.keys('^lang.+');
-    for(var tem in l){
-        iDb.unset(l[tem]);
-    }
-};
+    };
+})();
