@@ -86,8 +86,9 @@ body{
     background-image: url('../img/bg.png');
 }
 .form-panel{
-    background-color: #f8f8f8;
-    border: 5px solid #79ccc7;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 20px 30px rgba(0,0,0,.2);
     border-radius: 13px;
     padding: 7px;
 }
