@@ -33,7 +33,7 @@ class iDbToAll{
 	 * @return int
 	 */
 	public static function set($key,$value){
-		return sender::ToAll('i1'.json_encode(['key'=>$key,'val'=>$value]));
+		return sender::ToAll('1'.json_encode([$key,$value]));
 	}
 
 	/**
@@ -42,7 +42,7 @@ class iDbToAll{
 	 * @return int
 	 */
 	public static function incr($key){
-		return sender::ToAll('i2'.json_encode(['key'=>$key]));
+		return sender::ToAll('3'.$key);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class iDbToAll{
 	 * @return int
 	 */
 	public static function incrBy($key,$value){
-		return sender::ToAll('i3'.json_encode(['key'=>$key,'val'=>$value]));
+		return sender::ToAll('4'.json_encode([$key,$value]));
 	}
 
 	/**
@@ -61,7 +61,7 @@ class iDbToAll{
 	 * @return int
 	 */
 	public static function del($key){
-		return sender::ToAll('i4'.json_encode(['key'=>$key]));
+		return sender::ToAll('2'.$key);
 	}
 
 	/**
@@ -70,6 +70,6 @@ class iDbToAll{
 	 * @return int
 	 */
 	public static function set_json($input){
-		return sender::ToAll('i5'.$input);
+		return sender::ToAll('5'.$input);
 	}
 }
