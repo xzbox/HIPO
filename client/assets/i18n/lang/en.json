@@ -9,7 +9,13 @@
   "success"     : "success",
   "success_msg" : "Your operation finished successful.",
   "hipo"        : "HIPO",
+  "404"         : "It feels that the page you're looking for does not exist.",
+  "not_found"   : "Page not found!",
+  "weknow"      : "That's all we know!",
+  "home"        : "Home",
+  "guest"       : "Guest",
 
+  "logout"        : "Logout",
   "login"         : "Login",
   "username"      : "Username",
   "password"      : "Password",
