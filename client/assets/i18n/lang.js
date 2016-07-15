@@ -20,7 +20,7 @@
 
 var langController = (function(document,window,$){
     var ret     = Object(),
-        lang;
+        lang    = Object();
     ret.load    = function(code){
         $.getJSON("assets/i18n/lang/"+code+".json",function(data){
             lang    = data;
