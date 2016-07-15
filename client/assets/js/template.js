@@ -83,6 +83,9 @@ var template    = Object();
 Vue.filter('lang',function(value){
     return lng(value);
 });
+Vue.filter('lng',function(value){
+    return lng(value);
+});
 template.vue= new Vue({
     el: '#app',
     replace: false,
@@ -144,7 +147,7 @@ template.load   = function(tem){
     $(document).trigger(event_name)
 };
 template.set    = function(name,value){
-    template.vue.$set(name.replace('template_page_pages\\','pages.'),value);
+    template.vue.$set(name,value);
 };
 template.incReg = new  RegExp('{{inc\\s+?(\\S+?)}}');
 template.make   = function (name,a){
