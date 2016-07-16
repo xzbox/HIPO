@@ -45,6 +45,18 @@ class signup extends form{
 			js::doFunc(self::$user,'signup_wrong_email');
 			return;
 		}
+		if(!validation::validate_name($fname)){
+			js::doFunc(self::$user,'signup_wrong_fname');
+			return;
+		}
+		if(!validation::validate_name($lname)){
+			js::doFunc(self::$user,'signup_wrong_lname');
+			return;
+		}
+		if(!validation::validate_username($username)){
+			js::doFunc(self::$user,'signup_wrong_username');
+			return;
+		}
 		if($pass !== $re_pass){
 			js::doFunc(self::$user,'signup_same_repass');
 			return;
