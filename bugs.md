@@ -4,3 +4,5 @@ There is no known bugs in code.
  
 Fixed:
 1. In signup section it signup with an empty name,username and password.
+
+:)
