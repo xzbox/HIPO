@@ -61,10 +61,11 @@ class js{
      * @param       $name
      * @param array $args
      *
-     * @return void
+     * @return int
      */
     public static function doFunc($user,$name,$args = []){
         sender::ByUser($user,self::jsFunc($name,$args));
+        return 1;
     }
 
     /**
