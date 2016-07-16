@@ -221,14 +221,31 @@ var iDb    = (function(){
             }
             return re;
         },
+        /**
+         *
+         * @param keys
+         * @returns {string}
+         */
         mincr:    function(keys){
-
+            var len = keys.length;
+            for(var i = 0;i < len;i++){
+                iDb.incr(keys[i]);
+            }
+            return '';
         },
-        mincrby:    function(keys){
-
+        mincrBy:    function(keys,number){
+            var len = keys.length;
+            for(var i = 0;i < len;i++){
+                iDb.incrBy(keys[i],number);
+            }
+            return '';
         },
         mdel:       function(keys){
-
+            var len = keys.length;
+            for(var i = 0;i < len;i++){
+                iDb.del(keys[i]);
+            }
+            return '';
         }
     };
 })();
