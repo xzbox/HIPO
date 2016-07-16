@@ -233,6 +233,12 @@ var iDb    = (function(){
             }
             return '';
         },
+        /**
+         *
+         * @param keys
+         * @param number
+         * @returns {string}
+         */
         mincrBy:    function(keys,number){
             var len = keys.length;
             for(var i = 0;i < len;i++){
@@ -240,6 +246,11 @@ var iDb    = (function(){
             }
             return '';
         },
+        /**
+         *
+         * @param keys
+         * @returns {string}
+         */
         mdel:       function(keys){
             var len = keys.length;
             for(var i = 0;i < len;i++){
