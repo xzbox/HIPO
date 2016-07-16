@@ -69,16 +69,16 @@
                     <b>{{'nop' | lng}}</b>
                     {{'wrong_age' | lng}}
                 </div>
-                <div class="alert alert-success" v-if="wrong_fname">
-                    <b>{{'yes' | lng}}!</b>
+                <div class="alert alert-danger" v-if="wrong_fname">
+                    <b>{{'nop' | lng}}</b>
                     {{'wrong_fname' | lng}}
                 </div>
-                <div class="alert alert-success" v-if="wrong_lname">
-                    <b>{{'yes' | lng}}!</b>
+                <div class="alert alert-danger" v-if="wrong_lname">
+                    <b>{{'nop' | lng}}</b>
                     {{'wrong_lname' | lng}}
                 </div>
-                <div class="alert alert-success" v-if="wrong_username">
-                    <b>{{'yes' | lng}}!</b>
+                <div class="alert alert-danger" v-if="wrong_username">
+                    <b>{{'nop' | lng}}</b>
                     {{'wrong_username' | lng}}
                 </div>
                 <div class="alert alert-success" v-if="signup_success">
