@@ -29,6 +29,9 @@ var iDb    = (function(){
          * @returns {Array}
          */
         keys: function(filter,n,replace){
+            if(filter == ''){
+                return Object.keys(iDb_DB);
+            }
             if(n === undefined){
                 n = 0;
             }
@@ -184,6 +187,48 @@ var iDb    = (function(){
          */
         reset: function(){
             iDb_DB  = Object();
+        },
+        /**
+         * Search in keys for values with specific regex filter.
+         * @param keys
+         * @param filter
+         * @param n
+         * @param replace
+         * @returns {Array}
+         */
+        search: function(keys,filter,n,replace){
+            if(n === undefined){
+                n = 0;
+            }
+            if(replace === undefined){
+                replace = true;
+            }
+            if(replace){
+                filter  = filter.replace('\\','\\\\');
+            }
+            var key,
+                val,
+                tmp,
+                regex   = new RegExp('^'+filter+'$'),
+                k       = 0,
+                re      = [];
+            for(key in keys){
+                val = iDb.get(key);
+                if(regex.test(val)){
+                    tmp     = regex.exec(iDb_DB[keys[i]]);
+                    re[k++] = tmp[n];
+                }
+            }
+            return re;
+        },
+        mincr:    function(keys){
+
+        },
+        mincrby:    function(keys){
+
+        },
+        mdel:       function(keys){
+
         }
     };
 })();
