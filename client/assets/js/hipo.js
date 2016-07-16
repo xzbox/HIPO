@@ -68,30 +68,44 @@ function right_login(role){
     sidebar.$set('head_btn',lng('logout'));
     sidebar.$set('head_btn_logout','#logout');
 }
-function signup_wrong_email(){
-    template.vue.$set('wrong_email',true);
+function turnOffErrors(){
+    template.vue.$set('wrong_email',false);
     template.vue.$set('used_username',false);
     template.vue.$set('wrong_pass',false);
     template.vue.$set('wrong_age',false);
+    template.vue.$set('wrong_fname',false);
+    template.vue.$set('wrong_lname',false);
+    template.vue.$set('wrong_username',false);
+}
+function signup_wrong_email(){
+    turnOffErrors();
+    template.vue.$set('wrong_email',true);
 }
 function signup_used_username(){
-    template.vue.$set('wrong_email',false);
+    turnOffErrors();
     template.vue.$set('used_username',true);
-    template.vue.$set('wrong_pass',false);
-    template.vue.$set('wrong_age',false);
 }
 function signup_same_repass(){
-    template.vue.$set('wrong_email',false);
-    template.vue.$set('used_username',false);
+    turnOffErrors();
     template.vue.$set('wrong_pass',true);
-    template.vue.$set('wrong_age',false);
 }
 function signup_wrong_age(){
-    template.vue.$set('wrong_email',false);
-    template.vue.$set('used_username',false);
-    template.vue.$set('wrong_pass',false);
+    turnOffErrors();
     template.vue.$set('wrong_age',true);
 }
+function signup_wrong_fname(){
+    turnOffErrors();
+    template.vue.$set('wrong_fname',true);
+}
+function signup_wrong_lname(){
+    turnOffErrors();
+    template.vue.$set('wrong_lname',true);
+}
+function signup_wrong_username(){
+    turnOffErrors();
+    template.vue.$set('wrong_username',true);
+}
+
 function signup_success(){
     template.vue.$set('wrong_email',false);
     template.vue.$set('used_username',false);
