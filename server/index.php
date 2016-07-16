@@ -19,8 +19,6 @@
  *        <http://Qti3e.Github.io>    LO-VE    <Qti3eQti3e@Gmail.com>        *
  *****************************************************************************/
 /**
- * Test
- *
  * @package Web Socket
  * @category Index
  * @author Qti3e<Qti3eQti3e@Gmail.com>
