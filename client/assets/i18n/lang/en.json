@@ -31,5 +31,8 @@
   "used_username" : "Please enter another username.",
   "wrong_pass"    : "Password and it's repeat should be same.",
   "wrong_age"     : "Please enter a correct age.",
+  "wrong_fname"   : "Please enter a correct first name.",
+  "wrong_lname"   : "Please enter a correct last name.",
+  "wrong_username": "Please enter a correct username.",
   "signup_success": "Well done."
 }
