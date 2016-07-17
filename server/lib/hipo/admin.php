@@ -34,7 +34,7 @@ class admin{
 	 * @return bool
 	 */
 	public static function createContest($values){
-		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
+		if(isset($values['name']) && isset($values['level']) && isset($values['start']) && isset($values['time'])){
 			DB::INCR('contestId');
 			$id = DB::GET('contestId');
 			DB::hset('contests',$id.'.name',$values['name']);
@@ -53,7 +53,7 @@ class admin{
 	 * @return bool
 	 */
 	public static function editContest($id,$values){
-		if(isset($values['name']) && $values['level'] && $values['start'] && $values['time']){
+		if(isset($values['name']) && isset($values['level']) && isset($values['start']) && isset($values['time'])){
 			DB::hset('contests',$id.'.name',$values['name']);
 			DB::hset('contests',$id.'.level',$values['level']);
 			DB::hset('contests',$id.'.start',$values['start']);
