@@ -83,7 +83,7 @@ html[dir='rtl'] .float-left{
     margin-left: auto;
 }
 body{
-    background-image: url('../img/bg.png');
+    background: url('../img/bg.png') center;
 }
 .form-panel{
     background-color: #fff;
