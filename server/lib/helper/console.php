@@ -22,7 +22,7 @@ namespace lib\helper;
 
 /**
  * Class console
- * Print report to the output
+ * Prints report to the output
  * @package lib\helper
  */
 class console{
@@ -60,9 +60,11 @@ class console{
 	 * Set value of a key in data
 	 * @see console::$data
 	 * @param $key
+	 *      Key you want to set value for
 	 * @param $value
-	 *
+	 *      Value of key
 	 * @return mixed
+	 *      Return $value as output
 	 */
 	public static function set($key,$value){
 		self::$data[$key]   = $value;
