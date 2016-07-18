@@ -58,6 +58,7 @@ class user{
 				DBStorage::set($user->sessionId,'login',1);
 				DBStorage::set($user->sessionId,'login_username',$username);
 				DBStorage::set($user->sessionId,'role','admin');
+				$user->isAdmin  = 2;
 				$user->isLogin  = true;
 				return true;
 			}
