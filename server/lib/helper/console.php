@@ -27,15 +27,19 @@ namespace lib\helper;
  */
 class console{
 	/**
+	 * Save output length
 	 * @var int
 	 */
 	private static $len    = 0;
 	/**
+	 * Keep and storage data
 	 * @var array
 	 */
 	private static $data   = [];
 
 	/**
+	 * Prints human-readable data
+	 * @see console::$data
 	 * @return void
 	 */
 	private static function stdout(){
@@ -53,6 +57,8 @@ class console{
 	}
 
 	/**
+	 * Set value of a key in data
+	 * @see console::$data
 	 * @param $key
 	 * @param $value
 	 *
@@ -65,6 +71,8 @@ class console{
 	}
 
 	/**
+	 * Return variable of a specific key form $data
+	 * @see console::$data
 	 * @param $key
 	 *
 	 * @return bool
@@ -77,6 +85,8 @@ class console{
 	}
 
 	/**
+	 * Remove a key from $data
+	 * @see console::$data
 	 * @param $key
 	 *
 	 * @return bool
