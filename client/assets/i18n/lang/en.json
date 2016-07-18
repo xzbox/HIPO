@@ -34,5 +34,10 @@
   "wrong_fname"   : "Please enter a correct first name.",
   "wrong_lname"   : "Please enter a correct last name.",
   "wrong_username": "Please enter a correct username.",
-  "signup_success": "Well done."
+  "signup_success": "Well done.",
+
+  "menu"      : "Menu",
+  "dashboard" : "Dashboard",
+  "contests"  : "Contests",
+  "problems"  : "Problems"
 }
