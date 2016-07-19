@@ -39,5 +39,7 @@
   "menu"      : "Menu",
   "dashboard" : "Dashboard",
   "contests"  : "Contests",
-  "problems"  : "Problems"
+  "problems"  : "Problems",
+  "users"     : "Users",
+  "vms"       : "Virtual Machines"
 }
