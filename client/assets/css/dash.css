@@ -119,6 +119,50 @@ body{
 .list-group-item:hover{
     background-color: #e5e5e5;
 }
+.row{
+    margin-left: inherit;
+    margin-right: inherit;
+}
+.sidebar a{
+    margin-left: -10px;
+    color: #000000;
+}
+.sidebar a i{
+    color: #ff0505;
+}
 .btn-link:hover{
     text-decoration: blink;
+}
+.tile{
+    height: 100px;
+    background-color: #e8b71a;
+    box-shadow: 0 3px 5px rgba(0,0,0,.2);
+}
+.tile:hover{
+    box-shadow: 0 5px 7px rgba(0,0,0,.2);
+}
+.tile h3{
+    width:100%;
+    color: #fff;
+}
+.tile h3 i{
+    float: right;
+}
+.tile.tile-default{
+    background-color:#e8b71a;
+}
+.tile.tile-blue{
+    background-color:#0dc9f7;
+}
+.tile.tile-red{
+    background-color: #cd1719;
+}
+.tile.tile-pink{
+    background-color: #d40e52;
+}
+.tile.tile-cadet-blue{
+    background-color: #5f9da1;
+}
+.tile.tile-jordy-blue{
+    background-color: #74AAF7;
 }
