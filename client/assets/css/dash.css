@@ -144,9 +144,11 @@ body{
 .tile h3{
     width:100%;
     color: #fff;
+    margin-top: 35px;
 }
 .tile h3 i{
     float: right;
+    margin-top: -10px;
 }
 .tile.tile-default{
     background-color:#e8b71a;
